@@ -81,7 +81,6 @@ public class RestExceptionHandlerTest {
 					.andExpect(jsonPath("$.status", is(HttpStatus.BAD_REQUEST.value())))
 					.andExpect(jsonPath("$.error", is(HttpStatus.BAD_REQUEST.getReasonPhrase())))
 					.andExpect(jsonPath("$.message", is("Field 'value' must not be empty")))
-					.andExpect(jsonPath("$.path", is("/exception/bean/validator")))
 					.andExpect(jsonPath("$.timestamp", notNullValue()));
 		
 	}
@@ -108,7 +107,6 @@ public class RestExceptionHandlerTest {
 					.andExpect(jsonPath("$.status", is(HttpStatus.METHOD_NOT_ALLOWED.value())))
 					.andExpect(jsonPath("$.error", is(HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase())))
 					.andExpect(jsonPath("$.message", is("Invalid operation, Transaction 1 with status equal to SENDED")))
-					.andExpect(jsonPath("$.path", is("/exception/transaction_invalid/status")))
 					.andExpect(jsonPath("$.timestamp", notNullValue()));
 		
 	}
@@ -124,7 +122,6 @@ public class RestExceptionHandlerTest {
 					.andExpect(jsonPath("$.status", is(HttpStatus.NOT_FOUND.value())))
 					.andExpect(jsonPath("$.error", is(HttpStatus.NOT_FOUND.getReasonPhrase())))
 					.andExpect(jsonPath("$.message", is("Flatmate 1 not found")))
-					.andExpect(jsonPath("$.path", is("/exception/not_found/class")))
 					.andExpect(jsonPath("$.timestamp", notNullValue()));
 		
 	}
@@ -140,7 +137,6 @@ public class RestExceptionHandlerTest {
 					.andExpect(jsonPath("$.status", is(HttpStatus.NOT_FOUND.value())))
 					.andExpect(jsonPath("$.error", is(HttpStatus.NOT_FOUND.getReasonPhrase())))
 					.andExpect(jsonPath("$.message", is("Transaction cashier 1 not found")))
-					.andExpect(jsonPath("$.path", is("/exception/not_found/class_field")))
 					.andExpect(jsonPath("$.timestamp", notNullValue()));
 		
 	}
@@ -154,7 +150,6 @@ public class RestExceptionHandlerTest {
 					.andExpect(jsonPath("$.status", is(HttpStatus.FORBIDDEN.value())))
 					.andExpect(jsonPath("$.error", is(HttpStatus.FORBIDDEN.getReasonPhrase())))
 					.andExpect(jsonPath("$.message", is("Spring AccessDeniedException")))
-					.andExpect(jsonPath("$.path", is("/exception/spring/access_denied")))
 					.andExpect(jsonPath("$.timestamp", notNullValue()));
 		
 	}

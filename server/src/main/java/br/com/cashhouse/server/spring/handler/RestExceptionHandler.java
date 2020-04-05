@@ -26,9 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 public class RestExceptionHandler {
 
 	@Autowired
-	private HttpServletRequest request;
-
-	@Autowired
 	private LocaleService localeService;
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -81,7 +78,7 @@ public class RestExceptionHandler {
 	}
 
 	private ResponseEntity<ErrorResponse> buildResponse(String message, HttpStatus status) {
-		ErrorResponse error = new ErrorResponse(request, status, message);
+		ErrorResponse error = new ErrorResponse(status, message);
 		return new ResponseEntity<>(error, status);
 	}
 
