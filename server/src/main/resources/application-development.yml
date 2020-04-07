@@ -31,7 +31,5 @@ logging:
 server:
   error:
     include-stacktrace: never
-
-
-
+    
 #spring.main.banner-mode=off
