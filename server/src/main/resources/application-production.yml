@@ -1,7 +1,11 @@
-# Datasource
+server:
+  port: ${PORT:8080}
+  
 spring:
   datasource:
     url: ${DATABASE_URL}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 security:
   oauth2:
