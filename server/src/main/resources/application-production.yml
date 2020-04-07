@@ -1,0 +1,11 @@
+# Datasource
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+
+security
+  oauth2
+    client
+      scope: ${OAUTH_SCOPE}
+      client-id: ${OAUTH_CLIENT_ID}
+      client-secret: ${OAUTH_CLIENT_SECRET}
