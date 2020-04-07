@@ -102,6 +102,18 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<processTypes>
+						<web>java -cp server/target/classes:target/* br.com.cashhouse.server.App</web>
+					</processTypes>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 
 </project>
