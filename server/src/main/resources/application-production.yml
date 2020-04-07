@@ -1,11 +1,17 @@
-# Datasource
 spring:
+  port: ${PORT:8080}
   datasource:
     url: ${DATABASE_URL}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
 
-security
-  oauth2
-    client
+security:
+  oauth2:
+    client:
       scope: ${OAUTH_SCOPE}
       client-id: ${OAUTH_CLIENT_ID}
       client-secret: ${OAUTH_CLIENT_SECRET}
