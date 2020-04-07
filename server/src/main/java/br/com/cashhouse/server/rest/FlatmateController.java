@@ -29,7 +29,7 @@ import br.com.cashhouse.server.service.FlatmateService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/v1/flatmates")
+@RequestMapping("/api/v1/flatmates")
 @PreAuthorize("hasAnyRole('USER')")
 public class FlatmateController {
 

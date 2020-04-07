@@ -27,7 +27,7 @@ import br.com.cashhouse.server.service.CashierService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/v1/cashiers")
+@RequestMapping("/api/v1/cashiers")
 public class CashierController {
 
 	@Autowired

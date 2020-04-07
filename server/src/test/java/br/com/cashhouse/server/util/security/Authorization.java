@@ -17,7 +17,7 @@ import org.springframework.util.MultiValueMap;
 
 public class Authorization {
 	
-	private static final String VERSION = "/v1";
+	private static final String VERSION = "/api/v1";
 
 	private static final String CLIENT_ID = "cueva";
 	private static final String CLIENT_SECRET = "noop";
