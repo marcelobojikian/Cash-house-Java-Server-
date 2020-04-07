@@ -5,7 +5,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=marcelobojikian_Cash-House-Backend-Java&metric=coverage)](https://sonarcloud.io/dashboard?id=marcelobojikian_Cash-House-Backend-Java)
 
 # About
-The server can be easily run on any operating system such as Linux or Windows, for more information visit [here](https://github.com/marcelobojikian/cash-house/tree/master/backend).
+Cash House has the purpose of managing one or more savings cashiers, very common at shared home where all the members of the house must contribute money for specific accounts such as energy, water, electricity, food and others.
 
 ## Dependencies
     1. Download and Install [Java](https://www.oracle.com/java/) 1.8 or above ( recommended )
@@ -14,28 +14,23 @@ The server can be easily run on any operating system such as Linux or Windows, f
     4. Download and Install [Docker Compose](https://docs.docker.com/compose/) 1.25.0 ( recommended )
     
 ## How to Install
-    1. git clone https://github.com/marcelobojikian/cash-house.git
+    1. git clone https://github.com/marcelobojikian/Cash-House-Backend-Java.git
     2. cd backend
     3. mvn package
-    4. java -cp target/backend.jar br.com.housecash.backend.App
+
+## How to Run
+    1. java -cp target/backend.jar br.com.housecash.backend.App
+    
+## Code Analysis And Coverage Tests
+    1. [SonarCloud.io](https://sonarcloud.io/dashboard?id=marcelobojikian_Cash-House-Backend-Java)
 
 ## How to Use
 When executing the project it is possible to view the documentation of the resources that can be consumed by the link http://localhost:8080/swagger-ui.html, see an example:
-
-<p align="center">
- <img src="images/Swagger2.png" width="600" height="500">
-</p>
 
 ## Tools and Technologies to be used
 * Use Maven for dependency management.
 * Spring Oauth2, Spring Security, JPA. 
 * h2database for test.
-
-## Features
-
-* **Dashboard**: The user can access other accounts that were invited. Users can only execute transaction command. 
-* **Flatmates**: Each user can manage your roommates (permission denied when invited).
-* **Cashier**: Each user can manage your cashiers (permission denied when invited).
 
 ## Issues
 
