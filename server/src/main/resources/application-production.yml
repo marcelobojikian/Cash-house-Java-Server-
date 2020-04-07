@@ -1,5 +1,5 @@
 spring:
-  port: ${PORT:8080}
+  port: ${PORT}
   datasource:
     url: ${DATABASE_URL}
   jpa:
