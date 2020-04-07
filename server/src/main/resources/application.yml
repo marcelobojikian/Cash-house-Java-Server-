@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    active: production
+  messages:
+    basename: i18n/messages
+  flyway:
+    enabled: true
