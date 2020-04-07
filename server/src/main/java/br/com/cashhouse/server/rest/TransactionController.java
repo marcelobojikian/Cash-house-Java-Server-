@@ -48,7 +48,7 @@ import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@RequestMapping("/v1/transactions")
+@RequestMapping("/api/v1/transactions")
 @PreAuthorize("hasAnyRole('USER')")
 public class TransactionController {
 
