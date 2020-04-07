@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: production
+    active: development
   messages:
     basename: i18n/messages
   flyway:
