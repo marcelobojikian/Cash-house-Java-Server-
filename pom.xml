@@ -103,20 +103,6 @@
 			</plugins>
 		</pluginManagement>
 		
-		<plugins>
-			<plugin>
-				<groupId>com.heroku.sdk</groupId>
-				<artifactId>heroku-maven-plugin</artifactId>
-				<version>3.0.2</version>
-				<configuration>
-					<jdkVersion>1.8</jdkVersion>
-					<processTypes>
-						<web>java -jar server/target/server-1.0-SNAPSHOT.jar</web>
-					</processTypes>
-				</configuration>
-			</plugin>
-		</plugins>
-		
 	</build>
 
 </project>
