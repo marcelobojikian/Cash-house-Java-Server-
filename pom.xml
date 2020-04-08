@@ -22,6 +22,7 @@
 	<modules>
 		<module>core</module>
 		<module>server</module>
+		<module>tests</module>
 	</modules>
 
 	<properties>
@@ -29,6 +30,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<querydsl.version>4.3.0</querydsl.version>
 		<lombok.version>1.18.12</lombok.version>
+		<aggregate.report.dir>tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
 	</properties>
 
 	<dependencies>
@@ -74,6 +76,12 @@
 			<version>2.1.0.GA</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -96,7 +104,33 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-
 	</build>
+
+	<profiles>
+	
+		<profile>
+			<id>coverage</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>prepare-agent</id>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
+	</profiles>
 
 </project>
