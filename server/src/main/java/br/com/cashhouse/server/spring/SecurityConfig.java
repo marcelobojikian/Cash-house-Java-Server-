@@ -26,7 +26,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// @formatter:off
 		http.authorizeRequests()
-				.antMatchers("/v1/**").access("hasRole('USER')")
 				.antMatchers("/**").authenticated()
 			.and()
 				.cors();

@@ -1,6 +1,6 @@
 package br.com.cashhouse.server.spring.handler;
 
-import static br.com.cashhouse.server.util.EntityFactory.*;
+import static br.com.cashhouse.server.util.EntityFactory.createTransaction;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.eq;
@@ -40,7 +40,6 @@ import br.com.cashhouse.core.model.Transaction.Status;
 import br.com.cashhouse.server.exception.EntityNotFoundException;
 import br.com.cashhouse.server.exception.InvalidOperationException;
 import br.com.cashhouse.server.service.LocaleService;
-import br.com.cashhouse.server.util.ContentHelper;
 import br.com.cashhouse.server.util.annotation.LoginWith;
 import lombok.Getter;
 import lombok.Setter;
@@ -66,12 +65,9 @@ public class RestExceptionHandlerTest {
 	@Test
 	public void should_throw_MethodArgumentNotValidException() throws Exception {
 		
-		ContentHelper content = ContentHelper.generate();
-		content.add("value", "");
-		
 		MockHttpServletRequestBuilder request = get("/exception/bean/validator")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(content.toJson())
+				.content("{\"value\": \"\"}")
 				.characterEncoding("utf-8");
 		
 		when(localeService.getMessage(eq("dto.field.invalid"),eq("value"),eq("must not be empty"))).thenReturn("Field 'value' must not be empty");
