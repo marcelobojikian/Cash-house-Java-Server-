@@ -4,7 +4,7 @@ addons:
   sonarcloud:
     organization: marcelobojikian
     token:
-      secure: SONAR_TOKEN
+      secure: $SONAR_TOKEN
 
 jdk:
   - openjdk8
