@@ -1,5 +1,4 @@
 spring:
-
   profiles:
     active: testing
 
@@ -7,15 +6,20 @@ spring:
     platform: h2
     url: jdbc:h2:file:~/testCashHouse;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IFEXISTS=TRUE";
     username: sa
-    password:
+    password: 
     driver-class-name: org.h2.Driver
     initialization-mode: never
-    
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    hibernate.ddl-auto: none
-    
-  flyway.enabled: false
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+      
+  flyway:
+    enabled: false
 
 security:
   oauth2:

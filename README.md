@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/marcelobojikian/Cash-House-Backend-Java.svg?branch=master)](https://travis-ci.org/marcelobojikian/Cash-House-Backend-Java)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=marcelobojikian_Cash-House-Backend-Java&metric=security_rating)](https://sonarcloud.io/dashboard?id=marcelobojikian_Cash-House-Backend-Java)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=marcelobojikian_Cash-House-Backend-Java&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=marcelobojikian_Cash-House-Backend-Java)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=marcelobojikian_Cash-House-Backend-Java&metric=alert_status)](https://sonarcloud.io/dashboard?id=marcelobojikian_Cash-House-Backend-Java)
