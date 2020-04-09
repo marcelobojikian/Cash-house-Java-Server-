@@ -8,6 +8,7 @@
 		<groupId>br.com.cashhouse</groupId>
 		<artifactId>backend</artifactId>
 		<version>1.0-SNAPSHOT</version>
+		<!-- <relativePath/> -->
 		<relativePath>../</relativePath>
 	</parent>
 
@@ -17,7 +18,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<start-class>br.com.cashhouse.server.App</start-class>
+		<!-- <start-class>br.com.cashhouse.server.App</start-class> -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<backend-core.version>1.0-SNAPSHOT</backend-core.version>
 		<sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
@@ -60,5 +61,21 @@
 		</dependency>
 
 	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<processTypes>
+						<web>java -cp target/classes:target/dependency/* br.com.cashhouse.server.App</web>
+					</processTypes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
