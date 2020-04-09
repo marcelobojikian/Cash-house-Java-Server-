@@ -4,13 +4,13 @@ addons:
   sonarcloud:
     organization: marcelobojikian
     token:
-      secure: $SONAR_TOKEN
+      secure: SONAR_TOKEN
 
 jdk:
   - openjdk8
 
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=$SONAR_PROJECT_KEY
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=SONAR_PROJECT_KEY
 
 cache:
   directories:
