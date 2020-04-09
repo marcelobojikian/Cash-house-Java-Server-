@@ -106,7 +106,7 @@
 				<version>3.0.2</version>
 				<configuration>
 					<processTypes>
-						<web>java $JAVA_OPTS -cp target/classes:target/dependency/* br.com.cashhouse.server.App</web>
+						<web>java $JAVA_OPTS -cp server/target/classes:server/target/dependency/* br.com.cashhouse.server.App</web>
 					</processTypes>
 				</configuration>
 			</plugin>
