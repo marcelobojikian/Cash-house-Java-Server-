@@ -17,6 +17,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
+		<start-class>br.com.cashhouse.server.App</start-class>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<backend-core.version>1.0-SNAPSHOT</backend-core.version>
 		<sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
