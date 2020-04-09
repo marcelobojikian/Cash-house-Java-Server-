@@ -1,12 +1,33 @@
-[![Build Status](https://travis-ci.org/marcelobojikian/Cash-House-Backend-Java.svg?branch=master)](https://travis-ci.org/marcelobojikian/Cash-House-Backend-Java)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=marcelobojikian_Cash-House-Backend-Java&metric=security_rating)](https://sonarcloud.io/dashboard?id=marcelobojikian_Cash-House-Backend-Java)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=marcelobojikian_Cash-House-Backend-Java&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=marcelobojikian_Cash-House-Backend-Java)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=marcelobojikian_Cash-House-Backend-Java&metric=alert_status)](https://sonarcloud.io/dashboard?id=marcelobojikian_Cash-House-Backend-Java)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=marcelobojikian_Cash-House-Backend-Java&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=marcelobojikian_Cash-House-Backend-Java)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=marcelobojikian_Cash-House-Backend-Java&metric=coverage)](https://sonarcloud.io/dashboard?id=marcelobojikian_Cash-House-Backend-Java)
+<h1 align="center">
+    Cash House
+</h1>
+
+<h2 align="center">
+  Servidor Java
+</h2>
+
+<p align="center">
+  <img alt="License" src="https://img.shields.io/github/license/marcelobojikian/Cash-House-Backend-Java" />
+  <img alt="Travis Building" src="https://travis-ci.org/marcelobojikian/Cash-House-Backend-Java.svg?branch=master" />
+</p>
+
+<p align="center">
+  <img alt="Quality Gate" src="https://sonarcloud.io/api/project_badges/measure?project=marcelobojikian_Cash-House-Backend-Java&metric=alert_status" />
+  <img alt="Security Rating" src="https://sonarcloud.io/api/project_badges/measure?project=marcelobojikian_Cash-House-Backend-Java&metric=security_rating" />
+  <img alt="Coverage" src="https://sonarcloud.io/api/project_badges/measure?project=marcelobojikian_Cash-House-Backend-Java&metric=coverage" />
+</p>
 
 # About
 Cash House has the purpose of managing one or more savings cashiers, very common at shared home where all the members of the house must contribute money for specific accounts such as energy, water, electricity, food and others.
+
+<p align="center">
+  <a href="#-dependencies">Dependencies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-how-to-run">How to Run</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-how-to-use">How to Use</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-tools-and-technologies-to-be-used">Tools and Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-issues">Issues</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-licença">License</a>
+</p>
 
 ## Dependencies
     1. Download and Install [Java](https://www.oracle.com/java/) 1.8 or above ( recommended )
@@ -14,16 +35,11 @@ Cash House has the purpose of managing one or more savings cashiers, very common
     3. Download and Install [Docker](https://www.docker.com/) 19.03.6 ( recommended )
     4. Download and Install [Docker Compose](https://docs.docker.com/compose/) 1.25.0 ( recommended )
     
-## How to Install
+## How to Run
     1. git clone https://github.com/marcelobojikian/Cash-House-Backend-Java.git
     2. cd backend
     3. mvn package
-
-## How to Run
-    1. java -cp target/backend.jar br.com.housecash.backend.App
-    
-## Code Analysis And Coverage Tests
-    1. [SonarCloud.io](https://sonarcloud.io/dashboard?id=marcelobojikian_Cash-House-Backend-Java)
+    4. java -jar server/target/server-1.0-SNAPSHOT-deploy.jar
 
 ## How to Use
 When executing the project it is possible to view the documentation of the resources that can be consumed by the link http://localhost:8080/swagger-ui.html, see an example:
