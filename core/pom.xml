@@ -50,6 +50,16 @@
 
 	<build>
 		<plugins>
+		
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>/br/com/cashhouse/core/repository/TransactionRepositoryTest.java</include>
+					</includes>
+				</configuration>
+			</plugin>
 
 			<plugin>
 				<groupId>com.mysema.maven</groupId>

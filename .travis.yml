@@ -1,0 +1,17 @@
+language: java
+
+addons:
+  sonarcloud:
+    organization: marcelobojikian
+    token:
+      secure: "cTtUPW91nYRJyO/tDxMw1dINjt90U77kKZ7TPuzg8NJTZlwuvyuFvS6In6ugyjemcvRhvDkXtA3h0/2lyDjD6zrO26Lt5V7XmxfLf58lcKSWrN9PHcwy26ywD1UfVh5Riz9DfyhkrNzdBvJyqpfIQaEB6b9qptq/zkaoALYt5HoG4g5mnuzJse3/eVX5LTn3RAXPTrIFsudYmhyan6Zpj2zToJhdv5gsnp9GfYFBkKB6OVCgWf1HiUpPO89tW7YBrbQXj6OgeyASXndPHcmiANMuUxtV6vyR6bkx1Gb+aHVi8I9hA9/X97YLbzitn2UuR0US0jcU8XcfFk8OOlB28U1oXQsEtxUyH8S512jlch1B+n8HnTJtbSSDOH+BHDlhyJ9GgvaldGcvJtum4e01Z6YImx3kV5IkSeD+Jl5lbDdR1iDjtXdoH9K+mf+qyvjmXDb+g7FnYBDm3rARWxBVHD+2LscEfIvoE9drEgqxAhbgpn1E6AxSvpcn4tAEoES7QkckRSVFvNicH/sixfPH8qn3LhfkzLdxJ7Y+9CSEFpSWGeyyK/Vk6ruBs+bWoe4Q1unAOnGa/2jGO8zU4wnPmpZrMW12YGiV9LY1vUOjnMjXep6tsdMVTB22hCphFbETnI7Thwk+MHq8OO01gwM0t56iy/LMLnzkyG41+g8k8M8="
+
+jdk:
+  - openjdk8
+
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=marcelobojikian_Cash-House-Backend-Java
+
+cache:
+  directories:
+    - '$HOME/.m2/repository' 
