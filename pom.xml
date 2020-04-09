@@ -79,6 +79,7 @@
 	</dependencies>
 
 	<build>
+
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -98,10 +99,11 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+
 	</build>
 
 	<profiles>
-	
+
 		<profile>
 			<id>coverage</id>
 			<activation>
@@ -124,7 +126,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 	</profiles>
 
 </project>
