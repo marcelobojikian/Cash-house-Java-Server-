@@ -3,18 +3,22 @@ package br.com.cashhouse.server.rest;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
+import org.springframework.data.web.SortDefault.SortDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,6 +44,7 @@ import br.com.cashhouse.server.exception.EntityNotFoundException;
 import br.com.cashhouse.server.rest.dto.Content;
 import br.com.cashhouse.server.rest.dto.CreateTransaction;
 import br.com.cashhouse.server.rest.dto.EntityTransaction;
+import br.com.cashhouse.server.rest.dto.GroupByResponse;
 import br.com.cashhouse.server.rest.dto.UpdateTransaction;
 import br.com.cashhouse.server.service.CashierService;
 import br.com.cashhouse.server.service.FlatmateService;
@@ -65,7 +70,12 @@ public class TransactionController {
 	@ApiOperation(value = "Return a list with all transactions", response = Transaction[].class)
 	public ResponseEntity<Object> findAll(
 			@ApiIgnore @QuerydslPredicate(root = Transaction.class) Predicate predicate, 
-			@ApiIgnore Pageable pageable,
+			@ApiIgnore 
+			@SortDefaults({
+		          @SortDefault(sort = "createdDate", direction = Direction.DESC),
+		          @SortDefault(sort = "id", direction = Direction.ASC)
+		      })
+			@PageableDefault(page = 0, size = 20) Pageable pageable,
 			@RequestParam(required = false, defaultValue = "none") String group) {
 		
 		Page<Transaction> result = transactionService.findAll(predicate, pageable);
@@ -82,7 +92,7 @@ public class TransactionController {
 		if(group.equals("createdDate")) {
 		        
 			List<Content<Transaction>> list = groupByCreatedDate(result);
-			Page<Content<Transaction>> pageFormated = new PageImpl<>(list, pageable, Long.valueOf(list.size()));
+			GroupByResponse<Content<Transaction>> pageFormated = new GroupByResponse<>(list, result);
 
             return new ResponseEntity<>(pageFormated, httpStatus);
 			
@@ -169,9 +179,17 @@ public class TransactionController {
 		transactionService.delete(id);
 	}
 	
-	private List<Content<Transaction>> groupByCreatedDate(Page<Transaction> transaction) {
-		Map<LocalDate, List<Transaction>> groupedByDate = transaction.stream()
-				.collect(Collectors.groupingBy(item -> item.getCreatedDate().toLocalDate()));
+	private List<Content<Transaction>> groupByCreatedDate(Page<Transaction> list) {
+		Map<LocalDate, List<Transaction>> groupedByDate = new LinkedHashMap<>();
+		for (Transaction transacation : list) {
+			LocalDate key = transacation.getCreatedDate().toLocalDate();
+			if(!groupedByDate.containsKey(key)) {
+				groupedByDate.put(key, new LinkedList<>());
+			}
+			List<Transaction> values = groupedByDate.get(key);
+			values.add(transacation);
+		}
+		
 		return apply(groupedByDate);
 	}
 	
