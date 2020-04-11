@@ -183,17 +183,12 @@ public class GetGroupTest extends Oauth2 {
 		// @formatter:off
 		get("/transactions?group=createdDate&page=1&size=2")
 			.andExpect(status().isPartialContent())
-			.andExpect(jsonPath("$.content", hasSize(2)))
+			.andExpect(jsonPath("$.content", hasSize(1)))
 			.andExpect(jsonPath("$.content[0].createdDate", is("2020-01-28")))
 			.andExpect(jsonPath("$.content[0].year", is(2020)))
 			.andExpect(jsonPath("$.content[0].month", is(1)))
 			.andExpect(jsonPath("$.content[0].day", is(28)))
-			.andExpect(jsonPath("$.content[0].data", hasSize(1)))
-			.andExpect(jsonPath("$.content[1].createdDate", is("2020-01-27")))
-			.andExpect(jsonPath("$.content[1].year", is(2020)))
-			.andExpect(jsonPath("$.content[1].month", is(1)))
-			.andExpect(jsonPath("$.content[1].day", is(27)))
-			.andExpect(jsonPath("$.content[1].data", hasSize(1)));
+			.andExpect(jsonPath("$.content[0].data", hasSize(2)));
         // @formatter:on
 
 	}

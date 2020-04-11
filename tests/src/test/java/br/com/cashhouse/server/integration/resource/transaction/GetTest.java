@@ -46,7 +46,7 @@ public class GetTest extends Oauth2 {
 		get("/transactions?action=WITHDRAW")
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.content", hasSize(2)))
-	        .andExpect(jsonPath("$.content[*].id", contains(2,3)))
+	        .andExpect(jsonPath("$.content[*].id", hasItems(2,3)))
         	.andExpect(jsonPath("$.content[*].action", contains("WITHDRAW","WITHDRAW")));
         // @formatter:on
 
@@ -76,7 +76,7 @@ public class GetTest extends Oauth2 {
 		get("/transactions?cashier=1")
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.content", hasSize(3)))
-	        .andExpect(jsonPath("$.content[*].id", contains(1,2,6)))
+	        .andExpect(jsonPath("$.content[*].id", hasItems(1,2,6)))
 	        .andExpect(jsonPath("$.content[*].cashier.id", contains(1,1,1)));
         // @formatter:on
 
