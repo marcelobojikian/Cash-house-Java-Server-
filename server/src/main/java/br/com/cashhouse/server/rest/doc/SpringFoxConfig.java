@@ -27,6 +27,7 @@ import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+@Profile({"development", "production"})
 @Configuration
 @EnableSwagger2
 public class SpringFoxConfig {
