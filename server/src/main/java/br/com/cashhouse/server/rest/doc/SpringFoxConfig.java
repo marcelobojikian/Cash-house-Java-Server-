@@ -39,6 +39,9 @@ public class SpringFoxConfig {
     
     @Value("${security.oauth2.client.scope}")
     private String scope;
+    
+    @Value("${spring.port}")
+    private String port;
 
 	@Bean
 	public Docket api() {
@@ -74,7 +77,7 @@ public class SpringFoxConfig {
         return new OAuth(
         		"oauth2schema", 
         		new ArrayList<>(), 
-        		Collections.singletonList(new ResourceOwnerPasswordCredentialsGrant("http://localhost:8080/oauth/token"))
+        		Collections.singletonList(new ResourceOwnerPasswordCredentialsGrant(String.format("http://localhost:%s/oauth/token", port)))
     		);
     }
     
