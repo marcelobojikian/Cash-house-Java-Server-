@@ -21,12 +21,12 @@
 Cash House has the purpose of managing one or more savings cashiers, very common at shared home where all the members of the house must contribute money for specific accounts such as energy, water, electricity, food and others.
 
 <p align="center">
-  <a href="#-dependencies">Dependencies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-how-to-run">How to Run</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-how-to-use">How to Use</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-tools-and-technologies-to-be-used">Tools and Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-issues">Issues</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-licença">License</a>
+  <a href="#dependencies">Dependencies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#how-to-run">How to Run</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#how-to-use">How to Use</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#tools-and-technologies-to-be-used">Tools and Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#issues">Issues</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#license">License</a>
 </p>
 
 ## Dependencies
@@ -38,16 +38,22 @@ Cash House has the purpose of managing one or more savings cashiers, very common
 ## How to Run
     1. git clone https://github.com/marcelobojikian/Cash-House-Backend-Java.git
     2. cd backend
-    3. mvn package
-    4. java -jar server/target/server-1.0-SNAPSHOT-deploy.jar
+
+### Database
+    3. docker-compose up
+
+### System
+    4. mvn package
+    5. java -jar server/target/server-1.0-SNAPSHOT.jar
 
 ## How to Use
 When executing the project it is possible to view the documentation of the resources that can be consumed by the link http://localhost:8080/swagger-ui.html, see an example:
 
 ## Tools and Technologies to be used
 * Use Maven for dependency management.
-* Spring Oauth2, Spring Security, JPA. 
-* h2database for test.
+* Spring Oauth2, Spring Security. 
+* Flyway, QueryDsl.
+* PostgreSql and H2database for test.
 
 ## Issues
 
