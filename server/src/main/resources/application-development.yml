@@ -1,7 +1,5 @@
 spring:
 
-  port: 8080
-
   datasource:
     url: jdbc:postgresql://localhost:5432/cash_house
     platform: postgres
