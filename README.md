@@ -37,7 +37,7 @@ Cash House has the purpose of managing one or more savings cashiers, very common
     
 ## How to Run
     1. git clone https://github.com/marcelobojikian/Cash-House-Backend-Java.git
-    2. cd backend
+    2. cd Cash-House-Backend-Java
 
 ### Database
     3. docker-compose up
@@ -57,7 +57,7 @@ When executing the project it is possible to view the documentation of the resou
 
 ## Issues
 
-If face an issue, please notify it [here](https://github.com/marcelobojikian/cash-house/issues) as a new issue.
+If face an issue, please notify it [here](https://github.com/marcelobojikian/Cash-House-Backend-Java/issues) as a new issue.
 
 ## License
 
