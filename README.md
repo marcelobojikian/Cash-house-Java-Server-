@@ -47,7 +47,7 @@ Cash House has the purpose of managing one or more savings cashiers, very common
     5. java -jar server/target/server-1.0-SNAPSHOT.jar
 
 ## How to Use
-When executing the project it is possible to view the documentation of the resources that can be consumed by the link http://localhost:8080/swagger-ui.html, see an example:
+When executing the project it is possible to view the documentation of the resources that can be consumed by the link http://localhost:8080/swagger-ui.html
 
 ## Tools and Technologies to be used
 * Use Maven for dependency management.
