@@ -39,8 +39,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 		//@formatter:off
 		security
-			.checkTokenAccess("isAuthenticated()")
-			.tokenKeyAccess("isAuthenticated()");
+			.checkTokenAccess("isAuthenticated()");
 		//@formatter:on
 	}
 
