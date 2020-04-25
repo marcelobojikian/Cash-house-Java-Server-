@@ -1,7 +1,0 @@
-spring:
-  profiles:
-    active: ${ENV:development}
-  messages:
-    basename: i18n/messages
-  flyway:
-    enabled: true

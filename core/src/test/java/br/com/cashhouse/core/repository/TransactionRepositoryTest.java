@@ -30,7 +30,7 @@ public class TransactionRepositoryTest {
 
 	@Before
 	public void setUp() {
-		resolver = new QuerydslPredicateArgumentResolver(new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE), 
+		resolver = new QuerydslPredicateArgumentResolver(new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE),
 				Optional.empty());
 		request = new MockHttpServletRequest();
 	}
@@ -40,11 +40,12 @@ public class TransactionRepositoryTest {
 
 		request.addParameter("id", "1");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("findAll", Flatmate.class , Dashboard.class, Predicate.class, Pageable.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = resolver.resolveArgument(
+				getMethodParameterFor("findAll", Flatmate.class, Dashboard.class, Predicate.class, Pageable.class),
+				null, new ServletWebRequest(request), null);
 
 		assertThat(predicate).isEqualTo(QTransaction.transaction.id.eq(1l));
-		
+
 	}
 
 	@Test
@@ -52,11 +53,12 @@ public class TransactionRepositoryTest {
 
 		request.addParameter("createBy.id", "1");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("findAll", Flatmate.class , Dashboard.class, Predicate.class, Pageable.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = resolver.resolveArgument(
+				getMethodParameterFor("findAll", Flatmate.class, Dashboard.class, Predicate.class, Pageable.class),
+				null, new ServletWebRequest(request), null);
 
 		assertThat(predicate).isEqualTo(QTransaction.transaction.createBy.id.eq(1l));
-		
+
 	}
 
 	@Test
@@ -64,11 +66,12 @@ public class TransactionRepositoryTest {
 
 		request.addParameter("assigned.id", "1");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("findAll", Flatmate.class , Dashboard.class, Predicate.class, Pageable.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = resolver.resolveArgument(
+				getMethodParameterFor("findAll", Flatmate.class, Dashboard.class, Predicate.class, Pageable.class),
+				null, new ServletWebRequest(request), null);
 
 		assertThat(predicate).isEqualTo(QTransaction.transaction.assigned.id.eq(1l));
-		
+
 	}
 
 	@Test
@@ -76,11 +79,12 @@ public class TransactionRepositoryTest {
 
 		request.addParameter("cashier.id", "100");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("findAll", Flatmate.class , Dashboard.class, Predicate.class, Pageable.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = resolver.resolveArgument(
+				getMethodParameterFor("findAll", Flatmate.class, Dashboard.class, Predicate.class, Pageable.class),
+				null, new ServletWebRequest(request), null);
 
 		assertThat(predicate).isEqualTo(QTransaction.transaction.cashier.id.eq(100l));
-		
+
 	}
 
 	@Test
@@ -88,11 +92,12 @@ public class TransactionRepositoryTest {
 
 		request.addParameter("status", "CREATED");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("findAll", Flatmate.class , Dashboard.class, Predicate.class, Pageable.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = resolver.resolveArgument(
+				getMethodParameterFor("findAll", Flatmate.class, Dashboard.class, Predicate.class, Pageable.class),
+				null, new ServletWebRequest(request), null);
 
 		assertThat(predicate).isEqualTo(QTransaction.transaction.status.eq(Status.CREATED));
-		
+
 	}
 
 	@Test
@@ -100,11 +105,12 @@ public class TransactionRepositoryTest {
 
 		request.addParameter("action", "DEPOSIT");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("findAll", Flatmate.class , Dashboard.class, Predicate.class, Pageable.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = resolver.resolveArgument(
+				getMethodParameterFor("findAll", Flatmate.class, Dashboard.class, Predicate.class, Pageable.class),
+				null, new ServletWebRequest(request), null);
 
 		assertThat(predicate).isEqualTo(QTransaction.transaction.action.eq(Action.DEPOSIT));
-		
+
 	}
 
 	@Test
@@ -112,11 +118,12 @@ public class TransactionRepositoryTest {
 
 		request.addParameter("value", "32.42");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("findAll", Flatmate.class , Dashboard.class, Predicate.class, Pageable.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = resolver.resolveArgument(
+				getMethodParameterFor("findAll", Flatmate.class, Dashboard.class, Predicate.class, Pageable.class),
+				null, new ServletWebRequest(request), null);
 
 		assertThat(predicate).isEqualTo(QTransaction.transaction.value.eq(BigDecimal.valueOf(32.42d)));
-		
+
 	}
 
 	@Test
@@ -130,13 +137,12 @@ public class TransactionRepositoryTest {
 		request.addParameter("action", "DEPOSIT");
 		request.addParameter("value", "32.42");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("findAll", Flatmate.class , Dashboard.class, Predicate.class, Pageable.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = resolver.resolveArgument(
+				getMethodParameterFor("findAll", Flatmate.class, Dashboard.class, Predicate.class, Pageable.class),
+				null, new ServletWebRequest(request), null);
 
-		assertThat(predicate).isEqualTo(
-				QTransaction.transaction.id.eq(1l)
-				.and(QTransaction.transaction.createBy.id.eq(1l))
-				.and(QTransaction.transaction.assigned.id.eq(1l))
+		assertThat(predicate).isEqualTo(QTransaction.transaction.id.eq(1l)
+				.and(QTransaction.transaction.createBy.id.eq(1l)).and(QTransaction.transaction.assigned.id.eq(1l))
 				.and(QTransaction.transaction.cashier.id.eq(100l))
 				.and(QTransaction.transaction.status.eq(Status.CREATED))
 				.and(QTransaction.transaction.action.eq(Action.DEPOSIT))
@@ -146,11 +152,12 @@ public class TransactionRepositoryTest {
 	private static MethodParameter getMethodParameterFor(String methodName, Class<?>... args) throws RuntimeException {
 
 		try {
-			return new MethodParameter(TransactionRepository.class.getMethod(methodName, args), args.length == 0 ? -1 : 0);
+			return new MethodParameter(TransactionRepository.class.getMethod(methodName, args),
+					args.length == 0 ? -1 : 0);
 		} catch (NoSuchMethodException e) {
 			throw new RuntimeException(e);
 		}
-		
+
 	}
 
 }

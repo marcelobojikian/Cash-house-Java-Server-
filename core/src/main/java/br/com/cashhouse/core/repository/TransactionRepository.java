@@ -22,35 +22,38 @@ import br.com.cashhouse.core.model.Transaction;
 import br.com.cashhouse.core.model.QTransaction;
 import br.com.cashhouse.core.model.Transaction.Status;
 
-public interface TransactionRepository extends JpaRepository<Transaction, Long>, 
-											   QuerydslPredicateExecutor<Transaction>,
-											   QuerydslBinderCustomizer<QTransaction> {
-	
+public interface TransactionRepository extends JpaRepository<Transaction, Long>, QuerydslPredicateExecutor<Transaction>,
+		QuerydslBinderCustomizer<QTransaction> {
+
 	@Query("SELECT t FROM Transaction t WHERE t IN :#{#dashboard.transactions}")
 	public Collection<Transaction> findByDashboard(@Param("dashboard") Dashboard dashboard);
-	
+
 	@Query("SELECT t FROM Transaction t WHERE t IN :#{#dashboard.transactions} AND t.cashier = :cashier")
-	public Collection<Transaction> findByDashboardAndCashier(@Param("dashboard") Dashboard dashboard, @Param("cashier") Cashier cashier);
-	
+	public Collection<Transaction> findByDashboardAndCashier(@Param("dashboard") Dashboard dashboard,
+			@Param("cashier") Cashier cashier);
+
 	@Query("SELECT t FROM Transaction t WHERE t IN :#{#dashboard.transactions} AND ( t.createBy = :createBy OR t.assigned = :assigned )")
-	public Collection<Transaction> findByDashboardAndFlatmateRef(@Param("dashboard") Dashboard dashboard, @Param("createBy") Flatmate createBy, @Param("assigned") Flatmate assigned);
-	
+	public Collection<Transaction> findByDashboardAndFlatmateRef(@Param("dashboard") Dashboard dashboard,
+			@Param("createBy") Flatmate createBy, @Param("assigned") Flatmate assigned);
+
 	@Query("SELECT t FROM Transaction t WHERE t IN :#{#dashboard.transactions}")
 	public Page<Transaction> findByDashboard(@Param("dashboard") Dashboard dashboard, Pageable pageable);
-	
+
 	@Query("SELECT t FROM Transaction t WHERE t.id = :id AND t IN :#{#dashboard.transactions}")
 	public Optional<Transaction> findByDashboardAndId(@Param("dashboard") Dashboard dashboard, @Param("id") long id);
-	
-	default Page<Transaction> findAll(Flatmate flatmateLogged, Dashboard dashboard, Predicate parameters, Pageable pageable) {
+
+	default Page<Transaction> findAll(Flatmate flatmateLogged, Dashboard dashboard, Predicate parameters,
+			Pageable pageable) {
 		QTransaction transaction = QTransaction.transaction;
 		BooleanExpression inDashboard = transaction.in(dashboard.getTransactions());
-		
+
 		BooleanExpression loggedUserCreated = transaction.createBy.eq(flatmateLogged);
 		BooleanExpression assignedToLoggedUser = transaction.assigned.eq(flatmateLogged)
 				.and(transaction.status.eq(Status.CREATED));
 		BooleanExpression allSendedOrFinishedOrCanceled = transaction.createBy.ne(flatmateLogged)
 				.and(transaction.status.notIn(Status.CREATED, Status.DELETED));
-		
+
+		// @formatter:off
 		return findAll(
 					inDashboard
 					.and(
@@ -66,8 +69,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>,
 						)
 					)
 				, pageable);
+		// @formatter:on
 	}
-	
+
 	@Override
 	default void customize(QuerydslBindings bindings, QTransaction transaction) {
 		bindings.excluding(transaction.id);

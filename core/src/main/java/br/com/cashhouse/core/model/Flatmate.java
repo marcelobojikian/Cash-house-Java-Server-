@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,7 +18,9 @@ import lombok.Setter;
 
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Getter @Setter @RequiredArgsConstructor
+@Getter
+@Setter
+@RequiredArgsConstructor
 public class Flatmate implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -36,18 +36,9 @@ public class Flatmate implements Serializable {
 	@Column
 	private String nickname;
 
-	@JsonProperty(access = Access.WRITE_ONLY)
-	@Column
-	private String password;
-
-	@JsonIgnore
-	@Column(name = "roles", length = 50)
-	private String roles;
-
-	@Column(name = "enabled")
-	private boolean enabled;
 	@Column
 	private boolean firstStep;
+
 	@Column
 	private boolean guestStep;
 
@@ -55,12 +46,10 @@ public class Flatmate implements Serializable {
 	@OneToOne(mappedBy = "owner")
 	private Dashboard dashboard;
 
-	public Flatmate(String email, String nickname, String password) {
+	public Flatmate(String email, String nickname) {
 		super();
 		this.email = email;
 		this.nickname = nickname;
-		this.password = password;
-		this.enabled = true;
 		this.firstStep = false;
 		this.guestStep = false;
 	}

@@ -21,7 +21,9 @@ import lombok.Setter;
 
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Getter @Setter @RequiredArgsConstructor
+@Getter
+@Setter
+@RequiredArgsConstructor
 public class Cashier implements Serializable {
 
 	private static final long serialVersionUID = 1L;

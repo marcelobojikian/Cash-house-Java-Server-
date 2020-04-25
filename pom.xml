@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xmlns="http://maven.apache.org/POM/4.0.0">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -21,8 +22,14 @@
 
 	<modules>
 		<module>core</module>
-		<module>server</module>
+		<module>test-util</module>
+		<module>util</module>
+		<module>cashier</module>
+		<module>flatmate</module>
+		<module>transaction</module>
 		<module>tests</module>
+		<module>heroku</module>
+		<module>user</module>
 	</modules>
 
 	<properties>
@@ -30,10 +37,16 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<querydsl.version>4.3.0</querydsl.version>
 		<lombok.version>1.18.12</lombok.version>
+		<hibernate.version>5.4.2.Final</hibernate.version>
 		<aggregate.report.dir>tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
