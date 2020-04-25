@@ -1,25 +1,26 @@
 
-INSERT INTO FLATMATE (nickname, email, password, roles, enabled, first_step, guest_step) VALUES ('Marcelo', 'marcelo@mail.com', '$2a$10$DobDqO4VhUfNeDlE6wsKy.HK37x2dU9QtAGbmVswdzfQPUv0wI742', 'ADMIN,USER', true, false, false);
-INSERT INTO FLATMATE (nickname, email, password, roles, enabled, first_step, guest_step) VALUES ('Biro', 'biro@mail.com', '$2a$10$DobDqO4VhUfNeDlE6wsKy.HK37x2dU9QtAGbmVswdzfQPUv0wI742', 'USER', true, false, true);
-INSERT INTO FLATMATE (nickname, email, password, roles, enabled, first_step, guest_step) VALUES ('Eduardo', 'eduardo@mail.com', '$2a$10$DobDqO4VhUfNeDlE6wsKy.HK37x2dU9QtAGbmVswdzfQPUv0wI742', 'USER', true, false, true);
-INSERT INTO FLATMATE (nickname, email, password, roles, enabled, first_step, guest_step) VALUES ('Willian', 'will@mail.com', '$2a$10$DobDqO4VhUfNeDlE6wsKy.HK37x2dU9QtAGbmVswdzfQPUv0wI742', 'USER', true, false, true);
-INSERT INTO FLATMATE (nickname, email, password, roles, enabled, first_step, guest_step) VALUES ('Aime', 'aime@mail.com', '$2a$10$DobDqO4VhUfNeDlE6wsKy.HK37x2dU9QtAGbmVswdzfQPUv0wI742', 'USER', true, false, true);
-INSERT INTO FLATMATE (nickname, email, password, roles, enabled, first_step, guest_step) VALUES ('Carol', 'carol@mail.com', '$2a$10$DobDqO4VhUfNeDlE6wsKy.HK37x2dU9QtAGbmVswdzfQPUv0wI742', 'USER', true, false, true);
-INSERT INTO FLATMATE (nickname, email, password, roles, enabled, first_step, guest_step) VALUES ('Raissa', 'rai@mail.com', '$2a$10$DobDqO4VhUfNeDlE6wsKy.HK37x2dU9QtAGbmVswdzfQPUv0wI742', 'USER', true, false, true);
-INSERT INTO FLATMATE (nickname, email, password, roles, enabled, first_step, guest_step) VALUES ('Jean (test)', 'jean@mail.com', '$2a$10$DobDqO4VhUfNeDlE6wsKy.HK37x2dU9QtAGbmVswdzfQPUv0wI742', 'USER', true, false, false);
-INSERT INTO FLATMATE (nickname, email, password, roles, enabled, first_step, guest_step) VALUES ('Gretchen (test)', 'gretchen@mail.com', '$2a$10$DobDqO4VhUfNeDlE6wsKy.HK37x2dU9QtAGbmVswdzfQPUv0wI742', 'USER', true, false, true);
-INSERT INTO FLATMATE (nickname, email, password, roles, enabled, first_step, guest_step) VALUES ('Fernando (test)', 'fernando@mail.com', '$2a$10$DobDqO4VhUfNeDlE6wsKy.HK37x2dU9QtAGbmVswdzfQPUv0wI742', 'USER', true, true, true);
+INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Marcelo', 'marcelo@mail.com', false, false);
+INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Biro', 'biro@mail.com', false, true);
+INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Eduardo', 'eduardo@mail.com', false, true);
+INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Willian', 'will@mail.com', false, true);
+INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Aime', 'aime@mail.com', false, true);
+INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Carol', 'carol@mail.com', false, true);
+INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Raissa', 'rai@mail.com', false, true);
+INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Jean (test)', 'jean@mail.com', false, false);
+INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Gretchen (test)', 'gretchen@mail.com', false, true);
+INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Fernando (test)', 'fernando@mail.com', true, true);
 
 INSERT INTO DASHBOARD (OWNER_ID) VALUES (1);
 INSERT INTO DASHBOARD (OWNER_ID) VALUES (8);
 
-INSERT INTO CASHIER (owner_id, balance, name, started) VALUES (1, 32.54, 'Energy & bin', 0);
-INSERT INTO CASHIER (owner_id, balance, name, started) VALUES (1, 120, 'Geral', 23);
-INSERT INTO CASHIER (owner_id, balance, name, started) VALUES (8, 3.11, 'Rent & Clean', 12.45);
+INSERT INTO CASHIER (OWNER_ID, BALANCE, NAME, STARTED) VALUES (1, 32.54, 'Energy & bin', 0);
+INSERT INTO CASHIER (OWNER_ID, BALANCE, NAME, STARTED) VALUES (1, 120, 'Geral', 23);
+INSERT INTO CASHIER (OWNER_ID, BALANCE, NAME, STARTED) VALUES (8, 3.11, 'Rent & Clean', 12.45);
 
 INSERT INTO DASHBOARD_CASHIER (ID_DASHBOARD, ID_CASHIER) VALUES (1, 1);
 INSERT INTO DASHBOARD_CASHIER (ID_DASHBOARD, ID_CASHIER) VALUES (1, 2);
 INSERT INTO DASHBOARD_CASHIER (ID_DASHBOARD, ID_CASHIER) VALUES (2, 3);
+
 INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (1, 2);
 INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (1, 3);
 INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (1, 4);
@@ -29,29 +30,33 @@ INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (1, 7);
 INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (2, 9);
 INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (2, 10);
 
--- Usuario Marcelo pertence a dois dashboard
 INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (2, 1);
 
-/*
-INSERT INTO TRANSACTION (create_by_id, assigned_id, cashier_id, status, action, value, created_at) VALUES (1, 1, 1, 'CREATED', 'DEPOSIT', 1.99, '2020-01-28 23:59:59');
-INSERT INTO TRANSACTION (create_by_id, assigned_id, cashier_id, status, action, value, created_at) VALUES (1, 2, 1, 'FINISHED', 'WITHDRAW', 23, '2020-01-27 23:59:59');
-INSERT INTO TRANSACTION (create_by_id, assigned_id, cashier_id, status, action, value, created_at) VALUES (1, 4, 2, 'SENDED', 'WITHDRAW', 5.53, '2020-01-28 23:59:59');
-INSERT INTO TRANSACTION (create_by_id, assigned_id, cashier_id, status, action, value, created_at) VALUES (5, 5, 2, 'CREATED', 'DEPOSIT', 12.03, '2020-01-28 23:59:59');
-INSERT INTO TRANSACTION (create_by_id, assigned_id, cashier_id, status, action, value, created_at) VALUES (6, 6, 2, 'CANCELED', 'DEPOSIT', 66.11, '2020-01-27 23:59:59');
-INSERT INTO TRANSACTION (create_by_id, assigned_id, cashier_id, status, action, value, created_at) VALUES (1, 3, 1, 'DELETED', 'DEPOSIT', 61.30, '2020-01-28 23:59:59');
-INSERT INTO TRANSACTION (create_by_id, assigned_id, cashier_id, status, action, value, created_at) VALUES (8, 8, 3, 'SENDED', 'WITHDRAW', 1.50, '2020-01-28 23:59:59');
-INSERT INTO TRANSACTION (create_by_id, assigned_id, cashier_id, status, action, value, created_at) VALUES (8, 9, 3, 'CANCELED', 'DEPOSIT', 8.88, '2020-01-28 23:59:59');
-INSERT INTO TRANSACTION (create_by_id, assigned_id, cashier_id, status, action, value, created_at) VALUES (10, 10, 3, 'CREATED', 'WITHDRAW', 9.41, '2020-01-28 23:59:59');
-INSERT INTO TRANSACTION (create_by_id, assigned_id, cashier_id, status, action, value, created_at) VALUES (9, 9, 3, 'SENDED', 'DEPOSIT', 20, '2020-01-28 23:59:59');
+INSERT INTO LANGUAGE (LOCALE, MESSAGE_KEY, MESSAGE_CONTENT) VALUES
+('en', 'cashier.not.found','Cashier {0} not found'),
+('en', 'flatmate.not.found', 'Flatmate {0} not found'),
+('en', 'transaction.not.found', 'Transaction {0} not found'),
+('en', 'transaction.status.invalid.operation', 'Invalid operation, Transaction {0} with status equal to {1}'),
+('en', 'flatmate.access.denied', 'Flatmate {0} does not have permissions for the resource'),
+('en', 'flatmate.access.field.denied', 'Flatmate {0} does not have permissions for field {1}'),
+('en', 'flatmate.assigned.not.found', 'Flatmate assigned {0} not found'),
+('en', 'flatmate.createBy.not.found', 'Flatmate createBy {0} not found'),
 
-INSERT INTO DASHBOARD_TRANSACTION (ID_DASHBOARD, ID_TRANSACTION) VALUES (1, 1);
-INSERT INTO DASHBOARD_TRANSACTION (ID_DASHBOARD, ID_TRANSACTION) VALUES (1, 2);
-INSERT INTO DASHBOARD_TRANSACTION (ID_DASHBOARD, ID_TRANSACTION) VALUES (1, 3);
-INSERT INTO DASHBOARD_TRANSACTION (ID_DASHBOARD, ID_TRANSACTION) VALUES (1, 4);
-INSERT INTO DASHBOARD_TRANSACTION (ID_DASHBOARD, ID_TRANSACTION) VALUES (1, 5);
-INSERT INTO DASHBOARD_TRANSACTION (ID_DASHBOARD, ID_TRANSACTION) VALUES (1, 6);
-INSERT INTO DASHBOARD_TRANSACTION (ID_DASHBOARD, ID_TRANSACTION) VALUES (2, 7);
-INSERT INTO DASHBOARD_TRANSACTION (ID_DASHBOARD, ID_TRANSACTION) VALUES (2, 8);
-INSERT INTO DASHBOARD_TRANSACTION (ID_DASHBOARD, ID_TRANSACTION) VALUES (2, 9);
-INSERT INTO DASHBOARD_TRANSACTION (ID_DASHBOARD, ID_TRANSACTION) VALUES (2, 10);
-*/
+('pt', 'cashier.not.found','Caixinha {0} não encontrada'),
+('pt', 'flatmate.not.found', 'Flatmate {0} não encontrado'),
+('pt', 'transaction.not.found', 'Transação {0} não encontrada'),
+('pt', 'transaction.status.invalid.operation', 'Operação invalid, Transação {0} com status igual a {1}'),
+('pt', 'flatmate.access.denied', 'Flatmate {0} não tem permissão para esse recurso'),
+('pt', 'flatmate.access.field.denied', 'Flatmate {0} não tem permissão para o recurso {1}'),
+('pt', 'flatmate.assigned.not.found', 'Flatmate assinado {0} não encontrado para a Transação'),
+('pt', 'flatmate.createBy.not.found', 'Flatmate criador {0} não encontrado para a Transação'),
+
+('es', 'cashier.not.found','Cashier {0} not found'),
+('es', 'flatmate.not.found', 'Flatmate {0} not found'),
+('es', 'transaction.not.found', 'Transaction {0} not found'),
+('es', 'transaction.status.invalid.operation', 'Invalid operation, Transaction {0} with status equal to {1}'),
+('es', 'flatmate.access.denied', 'Flatmate {0} does not have permissions for the resource'),
+('es', 'flatmate.access.field.denied', 'Flatmate {0} does not have permissions for field {1}'),
+('es', 'flatmate.assigned.not.found', 'Flatmate assigned {0} not found'),
+('es', 'flatmate.createBy.not.found', 'Flatmate createBy {0} not found')
+;

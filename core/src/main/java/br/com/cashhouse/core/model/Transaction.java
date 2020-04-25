@@ -24,7 +24,9 @@ import lombok.Setter;
 
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Getter @Setter @RequiredArgsConstructor
+@Getter
+@Setter
+@RequiredArgsConstructor
 public class Transaction implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -44,77 +46,79 @@ public class Transaction implements Serializable {
 	private Cashier cashier;
 
 	@Column
-    @Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.STRING)
 	private Status status;
+
 	public enum Status {
 		CREATED, SENDED, FINISHED, CANCELED, DELETED;
 	}
 
 	@Column
-    @Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.STRING)
 	private Action action;
+
 	public enum Action {
-		DEPOSIT, WITHDRAW ;
+		DEPOSIT, WITHDRAW;
 	}
 
 	@Column
 	private BigDecimal value;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdDate;
+	@Column(name = "created_at")
+	private LocalDateTime createdDate;
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedDate;
+	@Column(name = "updated_at")
+	private LocalDateTime updatedDate;
 
-    @PrePersist
-    public void prePersist() {
-        createdDate = LocalDateTime.now();
-    }
-
-	@JsonIgnore
-    @PreUpdate
-    public void preUpdate() {
-        updatedDate = LocalDateTime.now();
-    }
+	@PrePersist
+	public void prePersist() {
+		createdDate = LocalDateTime.now();
+	}
 
 	@JsonIgnore
-    public boolean isAvailableToChange() {
-    	return status == null || status.equals(Status.CREATED);
-    }
+	@PreUpdate
+	public void preUpdate() {
+		updatedDate = LocalDateTime.now();
+	}
 
 	@JsonIgnore
-    public boolean isCreateBy(Flatmate flatmate) {
-    	return createBy.equals(flatmate);
-    }
+	public boolean isAvailableToChange() {
+		return status == null || status.equals(Status.CREATED);
+	}
 
 	@JsonIgnore
-    public boolean isAssignedTo(Flatmate flatmate) {
-    	return assigned.equals(flatmate);
-    }
+	public boolean isCreateBy(Flatmate flatmate) {
+		return createBy.equals(flatmate);
+	}
 
 	@JsonIgnore
-    public boolean isCreated() {
-    	return status != null && status.equals(Status.CREATED);
-    }
+	public boolean isAssignedTo(Flatmate flatmate) {
+		return assigned.equals(flatmate);
+	}
 
 	@JsonIgnore
-    public boolean isSended() {
-    	return status != null && status.equals(Status.SENDED);
-    }
+	public boolean isCreated() {
+		return status != null && status.equals(Status.CREATED);
+	}
 
 	@JsonIgnore
-    public boolean isFinished() {
-    	return status != null && status.equals(Status.FINISHED);
-    }
+	public boolean isSended() {
+		return status != null && status.equals(Status.SENDED);
+	}
 
 	@JsonIgnore
-    public boolean isCanceled() {
-    	return status != null && status.equals(Status.CANCELED);
-    }
+	public boolean isFinished() {
+		return status != null && status.equals(Status.FINISHED);
+	}
 
 	@JsonIgnore
-    public boolean isDeleted() {
-    	return status != null && status.equals(Status.DELETED);
-    }
+	public boolean isCanceled() {
+		return status != null && status.equals(Status.CANCELED);
+	}
+
+	@JsonIgnore
+	public boolean isDeleted() {
+		return status != null && status.equals(Status.DELETED);
+	}
 
 }

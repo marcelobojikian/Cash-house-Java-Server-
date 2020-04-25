@@ -1,0 +1,28 @@
+spring:
+  
+  datasource:
+    url: ${DATABASE_URL}
+    driverClassName: org.postgresql.Driver
+    maxActive: 10
+    maxIdle: 5
+    minIdle: 2
+    initialSize: 5
+    removeAbandoned: true
+    
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+
+  flyway:
+    baseline-on-migrate: true
+
+security:
+
+  jwt:
+    key-store: classpath:server.jks
+    key-store-password: ${KEY_STORE}
+    key-pair-alias: ${KEY_PAIR_ALIAS}
+    key-pair-password: ${KEY_PAIR_PASSWORD}
