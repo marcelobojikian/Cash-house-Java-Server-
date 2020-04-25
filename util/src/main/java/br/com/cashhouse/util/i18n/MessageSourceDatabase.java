@@ -23,13 +23,6 @@ public class MessageSourceDatabase extends AbstractMessageSource {
 		Language language = languageRepository.findByKeyAndLocale(key,locale.getLanguage());
 		if (language == null) {
 			language = languageRepository.findByKeyAndLocale(key, DEFAULT_LOCALE_CODE);
-			if(language == null) {
-				language = new Language();
-				language.setId(1l);
-				language.setKey(key);
-				language.setLocale(locale.getLanguage());
-				language.setMessage("not_found");
-			}
 		}
 		return new MessageFormat(language.getMessage(), locale);
 	}
