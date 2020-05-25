@@ -174,22 +174,22 @@ public class RestExceptionHandlerTest {
 		String value;
 	}
 
-	public static Transaction createTransaction(Long id, Double value, Status status, Action action) {
-
-		Transaction transaction = new Transaction();
-		transaction.setId(id);
-		transaction.setValue(BigDecimal.valueOf(value));
-		transaction.setStatus(status);
-		transaction.setAction(action);
-
-		return transaction;
-	}
-
-	public static Transaction createTransaction(Dashboard dashboard, Long id, Double value, Status status,
-			Action action) {
-		Transaction transaction = createTransaction(id, value, status, action);
-		dashboard.getTransactions().add(transaction);
-		return transaction;
-	}
+//	public static Transaction createTransaction(Long id, Double value, Status status, Action action) {
+//
+//		Transaction transaction = new Transaction();
+//		transaction.setId(id);
+//		transaction.setValue(BigDecimal.valueOf(value));
+//		transaction.setStatus(status);
+//		transaction.setAction(action);
+//
+//		return transaction;
+//	}
+//
+//	public static Transaction createTransaction(Dashboard dashboard, Long id, Double value, Status status,
+//			Action action) {
+//		Transaction transaction = createTransaction(id, value, status, action);
+//		dashboard.getTransactions().add(transaction);
+//		return transaction;
+//	}
 
 }

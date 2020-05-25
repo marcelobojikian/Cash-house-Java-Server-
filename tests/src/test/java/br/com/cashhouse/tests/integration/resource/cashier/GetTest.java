@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -21,7 +20,6 @@ import br.com.cashhouse.test.util.integration.Oauth2;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @SpringBootTest(classes = App.class)
-@Sql({ "classpath:reset.sql", "classpath:authorizations.sql" })
 public class GetTest extends Oauth2 {
 
 	@Test
@@ -65,7 +63,6 @@ public class GetTest extends Oauth2 {
 
 		// @formatter:off
 		get("/cashiers")
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$", hasSize(2)))
 				.andExpect(jsonPath("$[0].id", is(1)))
@@ -121,7 +118,7 @@ public class GetTest extends Oauth2 {
 
 		// @formatter:off
 		get("/cashiers/99")
-				.andExpect(status().isNotFound());
+				.andExpect(status().isForbidden());
         // @formatter:on
 
 	}
@@ -133,7 +130,7 @@ public class GetTest extends Oauth2 {
 
 		// @formatter:off
 		get("/cashiers/999")
-				.andExpect(status().isNotFound());
+				.andExpect(status().isForbidden());
         // @formatter:on
 
 	}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default">
+	<head>
+		<title>Header</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+		
+			<form action="#" th:action="@{/flatmates/create}" th:object="${flatmate}" method="post">
+
+				<div th:if="${message}" class="alert alert-danger alert-dismissible fade show">
+					<span th:text="${message}"></span>
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+				</div>
+
+				<div class="form-group">
+					<label for="nickname">Nickname</label>
+					<input type="text" class="form-control" th:field="*{nickname}" placeholder="Nickname" th:required="true" th:autofocus="true">
+					<p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="alert alert-danger"></p>
+				</div>
+				
+		    	<div class="container">
+		    		<div class="row justify-content-end">
+						<button type="submit" class="btn btn-primary mb-2" sec:authorize-acl="${dashboard} :: 'WRITE'">Add</button>
+		    		</div>
+				</div>
+				
+			</form>
+		
+		</div>
+	</body>
+	
+</html>

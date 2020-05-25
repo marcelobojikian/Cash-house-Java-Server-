@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default">
+	<head>
+		<title>Header</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+		
+			<div th:if="${param.message}" class="alert alert-danger alert-dismissible fade show">
+				<span th:text="${param.message}"></span>
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+		
+			<div th:switch="${#lists.size(entities)}">
+			    <h2 th:case="'0'">No Invitations yet!</h2>
+		        <div th:case="*">
+		            <h2>Invitations</h2>
+		            <table id="teste" class="table table-bordered">
+		                <thead>
+		                    <tr>
+		                    	<th>#</th>
+		                        <th>Username</th>
+		                        <th>Type</th>
+		                        <th sec:authorize-acl="${dashboard} :: 'DELETE'">Remove</th>
+		                        <th sec:authorize-acl="${dashboard} :: 'ADMINISTRATION'">Update to</th>
+		                        <th sec:authorize="hasRole('ADMIN')">Permissions</th>
+		                    </tr>
+		                </thead>
+		                <tbody>
+			                <tr th:each="entity : ${entities}">
+			                    <td th:text="${entity.id}"></td>
+			                    <td th:text="${entity.username}"></td>
+			                    <td th:text="${entity.type}"></td>
+			                    <td sec:authorize-acl="${dashboard} :: 'DELETE'"><a th:href="@{/invitations/delete/{id}(id=${entity.id})}">Delete</a></td>
+			                    <td sec:authorize-acl="${dashboard} :: 'ADMINISTRATION'">
+				                    <form th:action="@{/invitations/change}" method="post">
+										<input type="hidden" th:value="${entity.id}" name="id">
+										<input type="hidden" th:value="${entity.type == 'guest' ? 'flatmate' : 'guest'}" name="type">
+										<a href="#" onclick="this.parentNode.submit();" th:text="${entity.type == 'guest' ? 'flatmate' : 'guest'}"></a>
+									</form>
+			                    </td>
+			                    <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/invitations/{id}/permissions(id=${entity.id})}">view</a></td>
+			                </tr>
+			            </tbody>
+			        </table>
+		    	</div>
+		    	<div class="container">
+		    		<div class="row justify-content-end">
+		    			<a type="button" class="btn btn-primary" sec:authorize-acl="${dashboard} :: 'WRITE'" th:href="@{/invitations/new}">Add a new</a>
+		    		</div>
+				</div>
+			</div>
+		    
+		</div>
+		
+	</body>
+	
+</html>

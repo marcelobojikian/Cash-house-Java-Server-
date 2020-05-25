@@ -4,11 +4,12 @@ spring:
 
   datasource:
     platform: h2
-    url: jdbc:h2:file:~/moduleUser;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IFEXISTS=TRUE";
+    url: jdbc:h2:file:~/test-users;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IFEXISTS=TRUE";
     username: sa
     password: 
     driver-class-name: org.h2.Driver
     initialization-mode: never
+    data: classpath:schema.sql,classpath:data.sql
     
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect

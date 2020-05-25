@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default">
+	<head>
+		<title>Header</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+	
+			<div th:switch="${#lists.size(groupPermission.updates)}">
+			    <h2 th:case="'0'">No Guest yet!</h2>
+		        <div th:case="*">
+		            <h2>Permission for '<strong th:text="${flatmate.nickname}"></strong>' </h2>
+		            <table class="table table-bordered">
+		                <thead>
+		                    <tr>
+		                        <th>Username</th>
+		                        <th sec:authorize-acl="${dashboard} :: 'WRITE'">Modificar</th>
+		                    </tr>
+		                </thead>
+		                <tbody>
+			                <tr th:each="update, itemStat : ${groupPermission.updates}">
+				                <td>
+				                	<span th:text="${update.getUsername()}"></span>
+			                	</td>
+			                    <td>
+				                    <form th:if="${!update.permissions['2']}" th:action="@{/flatmates/{id}/invitations/enable(id=${id})}" method="post">
+										<input type="hidden" th:value="${update.getUsername()}" name="username">
+										<a href="#" onclick="this.parentNode.submit();">Enable</a>
+									</form>
+				                    <form th:if="${update.permissions['2']}" th:action="@{/flatmates/{id}/invitations/disable(id=${id})}" method="post">
+										<input type="hidden" th:value="${update.getUsername()}" name="username">
+										<a href="#" onclick="this.parentNode.submit();">Disable</a>
+									</form>
+								</td>
+			                </tr>
+			            </tbody>
+			        </table>
+		    	</div>
+	    	</div>
+		    
+		</div>
+	</body>
+	
+</html>

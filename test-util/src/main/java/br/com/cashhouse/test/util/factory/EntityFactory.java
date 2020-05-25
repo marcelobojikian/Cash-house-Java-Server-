@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import br.com.cashhouse.core.model.Cashier;
 import br.com.cashhouse.core.model.Dashboard;
 import br.com.cashhouse.core.model.Flatmate;
+import br.com.cashhouse.core.model.Profile;
 import br.com.cashhouse.core.model.Transaction;
 import br.com.cashhouse.core.model.Transaction.Action;
 import br.com.cashhouse.core.model.Transaction.Status;
@@ -77,19 +78,44 @@ public class EntityFactory {
 
 		Flatmate flatmate = new Flatmate();
 		flatmate.setId(id);
-		flatmate.setEmail(email);
+//		flatmate.setEmail(email);
 		flatmate.setNickname(nickname);
 
 		Dashboard dashboard = new Dashboard();
-		flatmate.setDashboard(dashboard);
+//		flatmate.setDashboard(dashboard);
 
 		dashboard.setId(1l);
-		dashboard.setOwner(flatmate);
-		dashboard.setGuests(new ArrayList<Flatmate>());
+//		dashboard.setOwner(flatmate);
+//		dashboard.setGuests(new ArrayList<Flatmate>());
 		dashboard.setCashiers(new ArrayList<Cashier>());
 		dashboard.setTransactions(new ArrayList<Transaction>());
 
 		return flatmate;
+	}
+
+	/*
+	 * Profile Helper
+	 */
+
+	public static Profile createProfile(Long id, String email, String roles) {
+
+		Profile profile = new Profile();
+		profile.setId(id);
+		profile.setUsername(email);
+		profile.setEnabled(true);
+		profile.setRoles(roles);
+
+		Dashboard dashboard = new Dashboard();
+		profile.setDashboard(dashboard);
+
+		dashboard.setId(1l);
+		dashboard.setOwner(profile);
+		dashboard.setGuests(new ArrayList<Profile>());
+		dashboard.setFlatmates(new ArrayList<Flatmate>());
+		dashboard.setCashiers(new ArrayList<Cashier>());
+		dashboard.setTransactions(new ArrayList<Transaction>());
+
+		return profile;
 	}
 
 }

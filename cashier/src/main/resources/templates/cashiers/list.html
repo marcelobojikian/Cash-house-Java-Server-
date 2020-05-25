@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default">
+	<head>
+		<title>Header</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+		
+			<div th:if="${param.message}" class="alert alert-danger alert-dismissible fade show">
+				<span th:text="${param.message}"></span>
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+		
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<label class="input-group-text" for="dashboardSelect">Dashboard</label>
+				</div>
+				<select class="custom-select" id="dashboardSelect" onchange="document.location.href=this.value">
+					<option th:each="invite : ${invitations}" th:selected="${dashboard.id == invite.id}"
+							th:value="@{/cashiers(dashboard=${invite.id})}" th:text="${invite.owner.username}"></option>
+				</select>
+			</div>
+	
+			<div th:switch="${#lists.size(entities)}">
+			    <h2 th:case="'0'">No Cashiers yet!</h2>
+		        <div th:case="*">
+		            <h2>Cashiers</h2>
+		            <table class="table table-bordered">
+		                <thead>
+		                    <tr>
+		                    	<th>#</th>
+		                        <th>Name</th>
+		                        <th>Balance</th>
+		                        <th>Edit</th>
+		                        <th sec:authorize-acl="${dashboard} :: 'DELETE'">Delete</th>
+		                        <th sec:authorize="hasRole('ADMIN')">Access Control</th>
+		                    </tr>
+		                </thead>
+		                <tbody>
+			                <tr th:each="entity : ${entities}">
+			                    <td th:text="${entity.id}"></td>
+			                    <td th:text="${entity.name}"></td>
+			                    <td th:text="${entity.balance}"></td>
+			                    <td><a sec:authorize-acl="${entity} :: 'WRITE'" th:href="@{/cashiers/edit/{id}(id=${entity.id})}">Edit</a></td>
+			                    <td sec:authorize-acl="${dashboard} :: 'DELETE'"><a th:href="@{/cashiers/delete/{id}(id=${entity.id})}">Delete</a></td>
+			                    <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/cashiers/{id}/permissions(id=${entity.id})}">view</a></td>
+			                </tr>
+			            </tbody>
+			        </table>
+		    	</div>
+		    	<div class="container">
+		    		<div class="row justify-content-end">
+		    			<a type="button" class="btn btn-primary" sec:authorize-acl="${dashboard} :: 'CREATE'" th:href="@{/cashiers/new}">Add a new</a>
+		    		</div>
+				</div>
+				
+			</div>
+		    
+		</div>
+	</body>
+	
+</html>

@@ -37,10 +37,7 @@ public class Transaction implements Serializable {
 	private Long id;
 
 	@OneToOne
-	private Flatmate createBy;
-
-	@OneToOne
-	private Flatmate assigned;
+	private Flatmate flatmate;
 
 	@OneToOne
 	private Cashier cashier;
@@ -50,7 +47,7 @@ public class Transaction implements Serializable {
 	private Status status;
 
 	public enum Status {
-		CREATED, SENDED, FINISHED, CANCELED, DELETED;
+		SENDED, FINISHED;
 	}
 
 	@Column
@@ -82,23 +79,8 @@ public class Transaction implements Serializable {
 	}
 
 	@JsonIgnore
-	public boolean isAvailableToChange() {
-		return status == null || status.equals(Status.CREATED);
-	}
-
-	@JsonIgnore
-	public boolean isCreateBy(Flatmate flatmate) {
-		return createBy.equals(flatmate);
-	}
-
-	@JsonIgnore
 	public boolean isAssignedTo(Flatmate flatmate) {
-		return assigned.equals(flatmate);
-	}
-
-	@JsonIgnore
-	public boolean isCreated() {
-		return status != null && status.equals(Status.CREATED);
+		return this.flatmate.equals(flatmate);
 	}
 
 	@JsonIgnore
@@ -109,16 +91,6 @@ public class Transaction implements Serializable {
 	@JsonIgnore
 	public boolean isFinished() {
 		return status != null && status.equals(Status.FINISHED);
-	}
-
-	@JsonIgnore
-	public boolean isCanceled() {
-		return status != null && status.equals(Status.CANCELED);
-	}
-
-	@JsonIgnore
-	public boolean isDeleted() {
-		return status != null && status.equals(Status.DELETED);
 	}
 
 }

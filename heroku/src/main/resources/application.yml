@@ -1,6 +1,7 @@
 spring:
   profiles:
-    active: ${ENV:development}
+    active: ${ENV:staging}
+#    active: ${ENV:development}
   flyway:
     enabled: true
       

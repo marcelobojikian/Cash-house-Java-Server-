@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default">
+	<head>
+		<title>Header</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+		
+			<div th:if="${param.message}" class="alert alert-danger alert-dismissible fade show">
+				<span th:text="${param.message}"></span>
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+		
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<label class="input-group-text" for="dashboardSelect">Dashboard</label>
+				</div>
+				<select class="custom-select" id="dashboardSelect" onchange="document.location.href=this.value">
+					<option th:each="invite : ${invitations}" th:selected="${dashboard.id == invite.id}"
+							th:value="@{/transactions(dashboard=${invite.id})}" th:text="${invite.owner.username}"></option>
+				</select>
+			</div>
+
+			<div th:switch="${#lists.size(entities)}">
+			    <h2 th:case="'0'">No Transactions yet!</h2>
+		        <div th:case="*">
+		            <h2>Transactions</h2>
+		            <table class="table table-bordered">
+		                <thead>
+		                    <tr>
+		                    	<th>#</th>
+		                        <th>Cashier</th>
+		                        <th>Flatmate</th>
+		                        <th>value</th>
+		                        <th>Edit</th>
+		                        <th>Delete</th>
+		                        <th sec:authorize="hasRole('ADMIN')">Permissions</th>
+		                    </tr>
+		                </thead>
+		                <tbody>
+			                <tr th:each="entity : ${entities}">
+			                    <td th:text="${entity.id}"></td>
+			                    <td th:text="${entity.cashier.name}"></td>
+			                    <td th:text="${entity.flatmate.nickname}"></td>
+			                    <td th:text="${entity.value}"></td>
+			                    <td>
+				                    <form sec:authorize-acl="${entity} :: 'WRITE'" action="#" 
+				                    	  th:action="@{/transactions/{id}/finish(id=${entity.id})}" method="post">
+										<a href="#" onclick="this.parentNode.submit();">Confirm</a>
+									</form>
+			                    </td>
+			                    <td><a sec:authorize-acl="${entity} :: 'DELETE'" th:href="@{/transactions/delete/{id}(id=${entity.id})}">Delete</a></td>
+			                    <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/transactions/{id}/permissions(id=${entity.id})}">view</a></td>
+			                </tr>
+			            </tbody>
+			        </table>
+		    	</div>
+		    	<div class="container text-right">
+		    		<div class="row justify-content-end">
+		    			<a type="button" class="btn btn-primary mr-1" sec:authorize-acl="${dashboard} :: 'CREATE'" th:href="@{/transactions/new/deposit}">Add Deposit</a>
+		    			<a type="button" class="btn btn-primary" sec:authorize-acl="${dashboard} :: 'CREATE'" th:href="@{/transactions/new/withdraw}">Add Withdraw</a>
+		    		</div>
+				</div>
+				
+			</div>
+
+		</div>
+	</body>
+	
+</html>

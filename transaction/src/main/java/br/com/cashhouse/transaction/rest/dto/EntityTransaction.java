@@ -21,10 +21,7 @@ import lombok.Setter;
 public class EntityTransaction {
 
 	@NotNull
-	private Long createBy;
-
-	@NotNull
-	private Long assigned;
+	private Long flatmate;
 
 	@NotNull
 	private Long cashier;
@@ -42,18 +39,14 @@ public class EntityTransaction {
 
 	public Transaction toEntity() {
 
-		Flatmate createByEntity = new Flatmate();
-		createByEntity.setId(createBy);
-
-		Flatmate assignedEntity = new Flatmate();
-		assignedEntity.setId(assigned);
+		Flatmate flatmateEntity = new Flatmate();
+		flatmateEntity.setId(flatmate);
 
 		Cashier cashierEntity = new Cashier();
 		cashierEntity.setId(cashier);
 
 		Transaction entity = new Transaction();
-		entity.setCreateBy(createByEntity);
-		entity.setAssigned(assignedEntity);
+		entity.setFlatmate(flatmateEntity);
 		entity.setCashier(cashierEntity);
 		entity.setStatus(status);
 		entity.setAction(action);

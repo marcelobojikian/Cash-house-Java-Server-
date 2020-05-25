@@ -8,7 +8,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EntityScan("br.com.cashhouse.core.model")
 @EnableJpaRepositories("br.com.cashhouse.core.repository")
-@ComponentScan("br.com.cashhouse")
+@ComponentScan(
+		value = {
+				"br.com.cashhouse.flatmate",
+//				"br.com.cashhouse.util.exception",
+				"br.com.cashhouse.util.i18n",
+				"br.com.cashhouse.util.service",
+				"br.com.cashhouse.util.token"
+		})
 @SpringBootApplication
 public class App {
 	public static void main(String[] args) {

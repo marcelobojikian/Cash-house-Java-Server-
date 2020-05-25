@@ -10,7 +10,6 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import br.com.cashhouse.core.model.Cashier;
-import br.com.cashhouse.core.model.Flatmate;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,19 +30,8 @@ public class EntityCashier {
 	@Digits(integer = 10, fraction = 2)
 	BigDecimal balance;
 
-	@NotNull
-	private Long owner;
-
 	public Cashier toEntity() {
-
-		Flatmate ownerEntity = new Flatmate();
-		ownerEntity.setId(owner);
-
-		Cashier entity = new Cashier(name, started, balance);
-		entity.setOwner(ownerEntity);
-
-		return entity;
-
+		return new Cashier(name, started, balance);
 	}
 
 }

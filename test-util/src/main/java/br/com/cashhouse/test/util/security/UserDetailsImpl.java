@@ -16,7 +16,8 @@ public class UserDetailsImpl extends User {
 	Flatmate flatmate;
 
 	public UserDetailsImpl(Flatmate flatmate, String password, Collection<? extends GrantedAuthority> authorities) {
-		super(flatmate.getEmail(), password, authorities);
+//		super(flatmate.getEmail(), password, authorities);
+		super(null, password, authorities);
 		this.flatmate = flatmate;
 	}
 

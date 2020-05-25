@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
@@ -41,10 +39,6 @@ public class Cashier implements Serializable {
 	@Column
 	@NumberFormat(style = Style.CURRENCY)
 	private BigDecimal balance;
-
-	@OneToOne
-	@JoinColumn(name = "OWNER_ID")
-	private Flatmate owner;
 
 	public Cashier(String name, BigDecimal started, BigDecimal balance) {
 		super();

@@ -7,9 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,28 +27,12 @@ public class Flatmate implements Serializable {
 	@EqualsAndHashCode.Include
 	private Long id;
 
-	@Column(unique = true)
-	private String email;
-
 	@Column
 	private String nickname;
 
-	@Column
-	private boolean firstStep;
-
-	@Column
-	private boolean guestStep;
-
-	@JsonIgnore
-	@OneToOne(mappedBy = "owner")
-	private Dashboard dashboard;
-
-	public Flatmate(String email, String nickname) {
+	public Flatmate(String nickname) {
 		super();
-		this.email = email;
 		this.nickname = nickname;
-		this.firstStep = false;
-		this.guestStep = false;
 	}
 
 }

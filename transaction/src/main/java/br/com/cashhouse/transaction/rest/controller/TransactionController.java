@@ -1,6 +1,5 @@
 package br.com.cashhouse.transaction.rest.controller;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,14 +19,12 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.data.web.SortDefault.SortDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -36,21 +32,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.querydsl.core.types.Predicate;
 
-import br.com.cashhouse.core.model.Cashier;
-import br.com.cashhouse.core.model.Flatmate;
+import br.com.cashhouse.core.model.Dashboard;
 import br.com.cashhouse.core.model.Transaction;
+import br.com.cashhouse.transaction.dto.CreateTransaction;
 import br.com.cashhouse.transaction.rest.dto.Content;
-import br.com.cashhouse.transaction.rest.dto.CreateTransaction;
-import br.com.cashhouse.transaction.rest.dto.EntityTransaction;
 import br.com.cashhouse.transaction.rest.dto.GroupByResponse;
-import br.com.cashhouse.transaction.rest.dto.UpdateTransaction;
-import br.com.cashhouse.transaction.rest.service.TransactionService;
+import br.com.cashhouse.transaction.service.TransactionService;
+import br.com.cashhouse.util.service.RestSession;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/api/v1/transactions")
 public class TransactionController {
+
+	private static final String DASHBOARD_ID = "dashboard";
+	
+	@Autowired
+	private RestSession restSession;
 
 	@Autowired
 	private TransactionService transactionService;
@@ -59,6 +58,7 @@ public class TransactionController {
 	@ApiOperation(value = "Return a list with all transactions", response = Transaction[].class)
 	public ResponseEntity<Object> findAll(
 	//@formatter:off
+			@RequestHeader(value = DASHBOARD_ID, required = false) String dashboardHeader,
 			@ApiIgnore @QuerydslPredicate(root = Transaction.class) Predicate predicate, 
 			@ApiIgnore 
 			@SortDefaults({
@@ -68,8 +68,10 @@ public class TransactionController {
 			@PageableDefault(page = 0, size = 20) Pageable pageable,
 			@RequestParam(required = false, defaultValue = "none") String group) {
 	//@formatter:on
+		
+		Dashboard dashboard = restSession.getDashboard(dashboardHeader);
 
-		Page<Transaction> result = transactionService.findAll(predicate, pageable);
+		Page<Transaction> result = transactionService.findAll(dashboard, predicate, pageable);
 
 		long totalElements = result.getTotalElements();
 		int numberOfElements = result.getNumberOfElements();
@@ -102,67 +104,35 @@ public class TransactionController {
 	@PostMapping("/deposit")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Returns a created deposit transaction entity", response = Transaction.class)
-	public Transaction createDepoist(@RequestBody @Valid CreateTransaction content) {
-
-		BigDecimal value = content.getValue();
-		Long cashierId = content.getCashier();
-		Cashier cashier = transactionService.findCashierById(cashierId);
-
-		Long flatmateId = content.getAssigned();
-		if (StringUtils.isEmpty(flatmateId)) {
-			return transactionService.createDeposit(cashier, value);
-		} else {
-			Flatmate flatmateAssigned = transactionService.findFlatmateById(flatmateId);
-			return transactionService.createDeposit(cashier, flatmateAssigned, value);
-		}
+	public Transaction createDepoist(@RequestHeader(value = DASHBOARD_ID, required = false) String dashboardHeader, 
+			@RequestBody @Valid CreateTransaction content) {
+		
+		Dashboard dashboard = restSession.getDashboard(dashboardHeader);
+		
+		return transactionService.createDeposit(dashboard, content);
 
 	}
 
 	@PostMapping("/withdraw")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Returns a created withdraw transaction entity", response = Transaction.class)
-	public Transaction createWithdraw(@RequestBody @Valid CreateTransaction content) {
-
-		BigDecimal value = content.getValue();
-		Long cashierId = content.getCashier();
-		Cashier cashier = transactionService.findCashierById(cashierId);
-
-		Long flatmateId = content.getAssigned();
-		if (StringUtils.isEmpty(flatmateId)) {
-			return transactionService.createwithdraw(cashier, value);
-		} else {
-			Flatmate flatmateAssigned = transactionService.findFlatmateById(flatmateId);
-			return transactionService.createwithdraw(cashier, flatmateAssigned, value);
-		}
-
-	}
-
-	@PutMapping("/{id}")
-	@ApiOperation(value = "Return a transaction entity updated", response = Transaction.class)
-	public Transaction update(@PathVariable Long id, @RequestBody EntityTransaction transaction) {
-		return transactionService.update(id, transaction.toEntity());
-	}
-
-	@PatchMapping("/{id}")
-	@ApiOperation(value = "Return a transaction entity partial updated", response = Transaction.class)
-	public ResponseEntity<Transaction> patch(@PathVariable @NotNull Long id,
-			@RequestBody @Valid UpdateTransaction content) {
-
-		if (!content.haveChanges()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
-
-		Transaction transaction = transactionService.update(id, content);
-
-		return new ResponseEntity<>(transaction, HttpStatus.OK);
+	public Transaction createWithdraw(@RequestHeader(value = DASHBOARD_ID, required = false) String dashboardHeader, 
+			@RequestBody @Valid CreateTransaction content) {
+		
+		Dashboard dashboard = restSession.getDashboard(dashboardHeader);
+		
+		return transactionService.createwithdraw(dashboard, content);
 
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Return status OK when deleted", response = Transaction.class)
-	public void detele(@PathVariable Long id) {
-		transactionService.delete(id);
+	public void detele(@RequestHeader(value = DASHBOARD_ID, required = false) String dashboardHeader, @PathVariable Long id) {
+		
+		Dashboard dashboard = restSession.getDashboard(dashboardHeader);
+		
+		transactionService.delete(dashboard, id);
 	}
 
 	private List<Content<Transaction>> groupByCreatedDate(Page<Transaction> list) {

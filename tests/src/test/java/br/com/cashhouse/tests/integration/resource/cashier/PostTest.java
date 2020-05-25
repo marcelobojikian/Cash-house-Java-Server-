@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -20,7 +19,6 @@ import br.com.cashhouse.test.util.integration.Oauth2;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @SpringBootTest(classes = App.class)
-@Sql({ "classpath:reset.sql", "classpath:authorizations.sql" })
 public class PostTest extends Oauth2 {
 
 	@Test
@@ -36,7 +34,6 @@ public class PostTest extends Oauth2 {
 
 		post("/cashiers")
 				.andExpect(status().isCreated())
-				.andExpect(jsonPath("$.id", is(1001)))
 				.andExpect(jsonPath("$.name", is("Post Test Cashier")))
 				.andExpect(jsonPath("$.started", is(11.23)))
 				.andExpect(jsonPath("$.balance",is(123.23)));
@@ -124,7 +121,6 @@ public class PostTest extends Oauth2 {
 
 		post("/cashiers")
 				.andExpect(status().isCreated())
-				.andExpect(jsonPath("$.id", is(1001)))
 				.andExpect(jsonPath("$.name", is("Post Test Cashier")))
 				.andExpect(jsonPath("$.started", is(198.44)))
 				.andExpect(jsonPath("$.balance",is(198.44)));
@@ -167,7 +163,7 @@ public class PostTest extends Oauth2 {
 	@Test
 	public void guest_save_Forbidden_fail() throws Exception {
 
-		loginWith(GRETCHEN).dashboard(JEAN);
+		loginWith(GRETCHEN).dashboard(MARCELO);
 
 		// @formatter:off
 		body()

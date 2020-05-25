@@ -1,0 +1,32 @@
+spring:
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cash_house
+    platform: postgres
+    username: api
+    password: password
+    
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: false
+    open-in-view: false
+
+  flyway:
+    baseline-on-migrate: true
+
+security:
+
+  jwt:
+    key-store: classpath:server.jks
+    key-store-password: cash-house-password
+    key-pair-alias: cash-house-oauth-jwt
+    key-pair-password: cash-house-pass
+    
+# keytool -genkeypair \-alias cash-house-oauth-jwt \-keyalg RSA \-keypass cash-house-password \-keystore server.jks \-storepass cash-house-password \-dname "CN=Web Server,OU=Unit,O=Organization,L=City,S=State,C=IE"
+# keytool -export -keystore server.jks -alias cash-house-oauth-jwt -file server.cer
+# openssl x509 -inform der -in server.cer -pubkey -noout

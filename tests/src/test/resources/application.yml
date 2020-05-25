@@ -1,14 +1,19 @@
 spring:
   profiles:
     active: testing
+      
+  flyway:
+    enabled: false
 
   datasource:
     platform: h2
-    url: jdbc:h2:file:~/serverHeroku;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IFEXISTS=TRUE";
+    url: jdbc:h2:file:~/testHeroku;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IFEXISTS=TRUE";
     username: sa
     password: 
     driver-class-name: org.h2.Driver
-    initialization-mode: never
+    initialization-mode: always
+    data: classpath:schema.sql,classpath:data.sql,classpath:scene.sql
+    
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
@@ -17,9 +22,7 @@ spring:
     properties:
       hibernate:
         format_sql: false
-      
-  flyway:
-    enabled: false
+    open-in-view: false
 
 security:
 

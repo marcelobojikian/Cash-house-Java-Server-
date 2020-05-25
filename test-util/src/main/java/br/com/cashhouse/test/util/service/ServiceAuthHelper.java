@@ -25,17 +25,17 @@ public class ServiceAuthHelper {
 	@Before
 	public void init() {
 		when(headerRequest.getFlatmateLogged()).thenReturn(getFlatmateLogged());
-		when(headerRequest.getDashboard()).thenReturn(getFlatmateLogged().getDashboard());
+//		when(headerRequest.getDashboard()).thenReturn(getFlatmateLogged().getDashboard());
 		when(userDetailsService.loadUserByUsername(any(String.class))).thenReturn(getCurrentUser());
 	}
 
 	public void userDashboard(Flatmate flatmate) {
-		when(headerRequest.getDashboard()).thenReturn(flatmate.getDashboard());
+//		when(headerRequest.getDashboard()).thenReturn(flatmate.getDashboard());
 	}
 
 	public void addGuest(Flatmate guest) {
-		Dashboard dashboard = getFlatmateLogged().getDashboard();
-		dashboard.getGuests().add(guest);
+//		Dashboard dashboard = getFlatmateLogged().getDashboard();
+//		dashboard.getGuests().add(guest);
 	}
 
 	public Flatmate getFlatmateLogged() {

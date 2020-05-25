@@ -13,11 +13,26 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(
 		basePackages = {
 				"br.com.cashhouse.heroku",
-				"br.com.cashhouse.util",
-				"br.com.cashhouse.user.rest",
+				"br.com.cashhouse.util.exception",
+				"br.com.cashhouse.util.i18n",
+				"br.com.cashhouse.util.service",
+				"br.com.cashhouse.util.token",
+				
+				"br.com.cashhouse.transaction.rest",
+				"br.com.cashhouse.transaction.web",
+				"br.com.cashhouse.transaction.service",
+				
 				"br.com.cashhouse.cashier.rest",
+				"br.com.cashhouse.cashier.web",
+				"br.com.cashhouse.cashier.service",
+				
 				"br.com.cashhouse.flatmate.rest",
-				"br.com.cashhouse.transaction.rest"
+				"br.com.cashhouse.flatmate.web",
+				"br.com.cashhouse.flatmate.service",
+				
+				"br.com.cashhouse.user.rest",
+				"br.com.cashhouse.user.web",
+				"br.com.cashhouse.user.service"
 		}
 )
 @SpringBootApplication
