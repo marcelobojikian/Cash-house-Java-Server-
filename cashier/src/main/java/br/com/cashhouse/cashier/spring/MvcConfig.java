@@ -1,21 +1,17 @@
 package br.com.cashhouse.cashier.spring;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import br.com.cashhouse.util.service.ServiceRequest;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
-
-	@Autowired
-	private ServiceRequest serviceRequest;
-
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(serviceRequest);
-	}
+ 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+          .addResourceHandler("/webjars/**")
+          .addResourceLocations("/webjars/").resourceChain(false);
+    }
 
 }

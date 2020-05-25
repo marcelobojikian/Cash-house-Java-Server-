@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default">
+	<head>
+		<title>Header</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+	
+			<form th:action="@{/cashiers/create}" th:object="${cashier}" method="post">
+
+				<div th:if="${message}" class="alert alert-danger alert-dismissible fade show">
+					<span th:text="${message}"></span>
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+				</div>
+				
+				<div class="form-group">
+					<label for="name">Name</label>
+					<input type="text" class="form-control" th:field="*{name}" placeholder="Name" th:required="true" th:autofocus="true">
+					<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger"></p>
+				</div>
+				
+				<div class="form-group">
+					<label for="started">Started</label>
+					<input type="text" class="form-control" th:field="*{started}" placeholder="Value Started" th:required="true">
+					<p th:if="${#fields.hasErrors('started')}" th:errors="*{started}" class="alert alert-danger"></p>
+				</div>
+				
+				<div class="form-group">
+					<label for="balance">Balance</label>
+					<input type="text" class="form-control" th:field="*{balance}" placeholder="Balance value" th:required="true">
+					<p th:if="${#fields.hasErrors('balance')}" th:errors="*{balance}" class="alert alert-danger"></p>
+				</div>
+				
+		    	<div class="container">
+		    		<div class="row justify-content-end">
+						<button type="submit" class="btn btn-primary mb-2" sec:authorize-acl="${dashboard} :: 'WRITE'">Add</button>
+		    		</div>
+				</div>
+				
+			</form>
+		
+		</div>
+		<script layout:fragment="script">
+			$(document).ready(function(){
+				  $('#started').inputmask({ alias: "currency", prefix: ''});
+				  $('#balance').inputmask({ alias: "currency", prefix: ''});
+			});
+		</script>
+	</body>
+	
+</html>

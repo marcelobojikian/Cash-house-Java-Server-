@@ -41,8 +41,9 @@ public class ServiceRequest extends HandlerInterceptorAdapter {
 
 	public Flatmate getFlatmateLogged() {
 		String email = getAuthentication().getName();
-		return flatmateRepository.findByEmail(email)
-				.orElseThrow(() -> new EntityNotFoundException("Flatmate not found"));
+		return null;
+//				flatmateRepository.findByEmail(email)
+//				.orElseThrow(() -> new EntityNotFoundException("Flatmate not found"));
 	}
 
 	@Override
@@ -62,39 +63,39 @@ public class ServiceRequest extends HandlerInterceptorAdapter {
 	}
 
 	public Dashboard getDashboard() {
-
-		Flatmate flatmateLogged = getFlatmateLogged();
-
-		if (dashboardId == null) {
-
-			Dashboard dashboardLogged = dashboardRepository.findByOwner(flatmateLogged);
-
-			if (dashboardLogged == null) {
-				return createDashboard(flatmateLogged);
-			}
-
-			return dashboardLogged;
-
-		} else {
-
-			Dashboard dashboardRequested = dashboardRepository.findById(dashboardId)
-					.orElseThrow(() -> new EntityNotFoundException("Dashboard not found"));
-
-			if (dashboardRequested.isOwner(flatmateLogged) || dashboardRequested.isGuest(flatmateLogged)) {
-
-				return dashboardRequested;
-
-			} else {
-				throw new AccessDeniedException("flatmate.access.denied" + flatmateLogged.getNickname());
-			}
-
-		}
+return null;
+//		Flatmate flatmateLogged = getFlatmateLogged();
+//
+//		if (dashboardId == null) {
+//
+//			Dashboard dashboardLogged = dashboardRepository.findByOwner(flatmateLogged);
+//
+//			if (dashboardLogged == null) {
+//				return createDashboard(flatmateLogged);
+//			}
+//
+//			return dashboardLogged;
+//
+//		} else {
+//
+//			Dashboard dashboardRequested = dashboardRepository.findById(dashboardId)
+//					.orElseThrow(() -> new EntityNotFoundException("Dashboard not found"));
+//
+//			if (dashboardRequested.isOwner(flatmateLogged) || dashboardRequested.isGuest(flatmateLogged)) {
+//
+//				return dashboardRequested;
+//
+//			} else {
+//				throw new AccessDeniedException("flatmate.access.denied" + flatmateLogged.getNickname());
+//			}
+//
+//		}
 
 	}
 
 	public synchronized Dashboard createDashboard(Flatmate flatmate) {
 		Dashboard dashboard = new Dashboard();
-		dashboard.setOwner(flatmate);
+//		dashboard.setOwner(flatmate);
 		return dashboardRepository.save(dashboard);
 	}
 

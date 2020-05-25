@@ -24,11 +24,8 @@ public class TransactionConverterTest {
 	@Test
 	public void whenConvertStringToStatus_thenSuccess() {
 
-		assertThat(conversionService.convert("created", Status.class), is(Status.CREATED));
 		assertThat(conversionService.convert("sended", Status.class), is(Status.SENDED));
 		assertThat(conversionService.convert("finished", Status.class), is(Status.FINISHED));
-		assertThat(conversionService.convert("canceled", Status.class), is(Status.CANCELED));
-		assertThat(conversionService.convert("deleted", Status.class), is(Status.DELETED));
 
 	}
 

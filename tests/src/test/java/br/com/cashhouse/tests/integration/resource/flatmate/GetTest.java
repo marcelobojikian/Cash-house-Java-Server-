@@ -11,9 +11,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import br.com.cashhouse.heroku.App;
 import br.com.cashhouse.test.util.integration.Oauth2;
@@ -21,7 +21,6 @@ import br.com.cashhouse.test.util.integration.Oauth2;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @SpringBootTest(classes = App.class)
-@Sql({ "classpath:reset.sql", "classpath:authorizations.sql" })
 public class GetTest extends Oauth2 {
 
 	@Test
@@ -34,11 +33,7 @@ public class GetTest extends Oauth2 {
 		        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 		        .andExpect(status().isOk())
 				.andExpect(jsonPath("$.id", is(9)))
-				.andExpect(jsonPath("$.email", is("gretchen@mail.com")))
-				.andExpect(jsonPath("$.nickname", is("Gretchen (test)")))
-				.andExpect(jsonPath("$.password").doesNotExist())
-				.andExpect(jsonPath("$.firstStep", is(false)))
-				.andExpect(jsonPath("$.guestStep", is(false)));
+				.andExpect(jsonPath("$.nickname", is("Gretchen")));
         // @formatter:on
 
 	}
@@ -53,11 +48,7 @@ public class GetTest extends Oauth2 {
 		        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 		        .andExpect(status().isOk())
 				.andExpect(jsonPath("$.id", is(10)))
-				.andExpect(jsonPath("$.email", is("fernando@mail.com")))
-				.andExpect(jsonPath("$.nickname", is("Fernando (test)")))
-				.andExpect(jsonPath("$.password").doesNotExist())
-				.andExpect(jsonPath("$.firstStep", is(false)))
-				.andExpect(jsonPath("$.guestStep", is(false)));
+				.andExpect(jsonPath("$.nickname", is("Fernando")));
         // @formatter:on
 
 	}
@@ -72,11 +63,7 @@ public class GetTest extends Oauth2 {
 		        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 		        .andExpect(status().isOk())
 				.andExpect(jsonPath("$.id", is(8)))
-				.andExpect(jsonPath("$.email", is("jean@mail.com")))
-				.andExpect(jsonPath("$.nickname", is("Jean (test)")))
-				.andExpect(jsonPath("$.password").doesNotExist())
-				.andExpect(jsonPath("$.firstStep", is(false)))
-				.andExpect(jsonPath("$.guestStep", is(false)));
+				.andExpect(jsonPath("$.nickname", is("Jean")));
         // @formatter:on
 
 	}
@@ -88,21 +75,14 @@ public class GetTest extends Oauth2 {
 
 		// @formatter:off
 		get("/flatmates")
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$", hasSize(3)))
-				.andExpect(jsonPath("$[0].id", is(9)))
-				.andExpect(jsonPath("$[0].email", is("gretchen@mail.com")))
-				.andExpect(jsonPath("$[0].nickname", is("Gretchen (test)")))
-				.andExpect(jsonPath("$[0].password").doesNotExist())
-				.andExpect(jsonPath("$[1].id", is(10)))
-				.andExpect(jsonPath("$[1].email", is("fernando@mail.com")))
-				.andExpect(jsonPath("$[1].nickname", is("Fernando (test)")))
-				.andExpect(jsonPath("$[1].password").doesNotExist())
-				.andExpect(jsonPath("$[2].id", is(1)))
-				.andExpect(jsonPath("$[2].email", is("marcelo@mail.com")))
-				.andExpect(jsonPath("$[2].nickname", is("Marcelo (test)")))
-				.andExpect(jsonPath("$[2].password").doesNotExist());
+				.andExpect(jsonPath("$[0].id", is(8)))
+				.andExpect(jsonPath("$[0].nickname", is("Jean")))
+				.andExpect(jsonPath("$[1].id", is(9)))
+				.andExpect(jsonPath("$[1].nickname", is("Gretchen")))
+				.andExpect(jsonPath("$[2].id", is(10)))
+				.andExpect(jsonPath("$[2].nickname", is("Fernando")));
         // @formatter:on
 
 	}
@@ -125,22 +105,16 @@ public class GetTest extends Oauth2 {
 		loginWith(GRETCHEN).dashboard(JEAN);
 
 		// @formatter:off
-		get("/flatmates")
+		get("/flatmates").andDo(MockMvcResultHandlers.print())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$", hasSize(3)))
-				.andExpect(jsonPath("$[0].id", is(9)))
-				.andExpect(jsonPath("$[0].email", is("gretchen@mail.com")))
-				.andExpect(jsonPath("$[0].nickname", is("Gretchen (test)")))
-				.andExpect(jsonPath("$[0].password").doesNotExist())
-				.andExpect(jsonPath("$[1].id", is(10)))
-				.andExpect(jsonPath("$[1].email", is("fernando@mail.com")))
-				.andExpect(jsonPath("$[1].nickname", is("Fernando (test)")))
-				.andExpect(jsonPath("$[1].password").doesNotExist())
-				.andExpect(jsonPath("$[2].id", is(1)))
-				.andExpect(jsonPath("$[2].email", is("marcelo@mail.com")))
-				.andExpect(jsonPath("$[2].nickname", is("Marcelo (test)")))
-				.andExpect(jsonPath("$[2].password").doesNotExist());
+				.andExpect(jsonPath("$[0].id", is(8)))
+				.andExpect(jsonPath("$[0].nickname", is("Jean")))
+				.andExpect(jsonPath("$[1].id", is(9)))
+				.andExpect(jsonPath("$[1].nickname", is("Gretchen")))
+				.andExpect(jsonPath("$[2].id", is(10)))
+				.andExpect(jsonPath("$[2].nickname", is("Fernando")));
         // @formatter:on
 
 	}
@@ -152,7 +126,7 @@ public class GetTest extends Oauth2 {
 
 		// @formatter:off
 		get("/flatmates/5")
-				.andExpect(status().isNotFound());
+				.andExpect(status().isForbidden());
         // @formatter:on
 
 	}
@@ -164,7 +138,7 @@ public class GetTest extends Oauth2 {
 
 		// @formatter:off
 		get("/flatmates/5")
-				.andExpect(status().isNotFound());
+				.andExpect(status().isForbidden());
         // @formatter:on
 
 	}

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cashhouse.core.model.Transaction;
-import br.com.cashhouse.transaction.rest.service.TransactionService;
+import br.com.cashhouse.transaction.service.TransactionService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
@@ -19,36 +19,11 @@ public class TransactionActionController {
 	@Autowired
 	private TransactionService transactionService;
 
-	@PostMapping("/send")
-	@ResponseStatus(HttpStatus.ACCEPTED)
-	@ApiOperation(value = "Returns a sent transaction entity", response = Transaction.class)
-	public Transaction send(@PathVariable Long id) {
-		Transaction transaction = transactionService.findById(id);
-		return transactionService.send(transaction);
-	}
-
 	@PostMapping("/finish")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	@ApiOperation(value = "Returns a finished transaction entity", response = Transaction.class)
 	public Transaction finish(@PathVariable Long id) {
-		Transaction transaction = transactionService.findById(id);
-		return transactionService.finish(transaction);
-	}
-
-	@PostMapping("/cancel")
-	@ResponseStatus(HttpStatus.ACCEPTED)
-	@ApiOperation(value = "Returns a canceled transaction entity", response = Transaction.class)
-	public Transaction cancel(@PathVariable Long id) {
-		Transaction transaction = transactionService.findById(id);
-		return transactionService.cancel(transaction);
-	}
-
-	@PostMapping("/delete")
-	@ResponseStatus(HttpStatus.ACCEPTED)
-	@ApiOperation(value = "Returns a deleted transaction entity", response = Transaction.class)
-	public Transaction delete(@PathVariable Long id) {
-		Transaction transaction = transactionService.findById(id);
-		return transactionService.delete(transaction);
+		return transactionService.finish(id);
 	}
 
 }

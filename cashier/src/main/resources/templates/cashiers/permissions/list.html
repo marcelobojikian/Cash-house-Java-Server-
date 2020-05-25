@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default">
+	<head>
+		<title>Header</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+	
+		<form action="#" th:action="@{/cashiers/{id}/permissions/update(id=${id})}" th:object="${groupPermission}" method="post">
+				<div th:switch="${#lists.size(groupPermission.updates)}">
+				    <h2 th:case="'0'">No yet!</h2>
+			        <div th:case="*">
+			            <h2>Permissions</h2>
+			            <table class="table table-bordered">
+			                <thead>
+			                    <tr>
+			                        <th>Username</th>
+			                        <th>Read</th>
+			                        <th>Write</th>
+			                        <th>Delete</th>
+			                        <th>Create</th>
+			                    </tr>
+			                </thead>
+			                <tbody>
+				                <tr th:each="update, itemStat : ${groupPermission.updates}">
+					                <td>
+					                	<span th:text="${update.getUsername()}"></span>
+					                	<input hidden th:field="*{updates['__${itemStat.index}__'].username}" th:value="${update.getUsername()}"/>
+				                	</td>
+				                    <td th:each="permission: ${update.permissions}">
+				                    	<input th:field="*{updates['__${itemStat.index}__'].permissions['__${permission.key}__']}" th:checked="${permission.value}" type="checkbox">
+				                    </td>
+				                </tr>
+				            </tbody>
+				        </table>
+			
+				    	<div class="container">
+				    		<div class="row justify-content-end">
+				    			<button type="submit" class="btn btn-primary">Update</button>
+				    		</div>
+						</div>
+					
+			    	</div>
+				
+		    	</div>
+    	
+    		</form>
+		    
+		</div>
+	</body>
+	
+</html>

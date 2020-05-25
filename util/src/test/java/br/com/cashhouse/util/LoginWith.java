@@ -17,6 +17,6 @@ public @interface LoginWith {
 
 	String password() default "none";
 
-	String[] roles() default {};
+	String roles() default "ROLE_USER";
 
 }

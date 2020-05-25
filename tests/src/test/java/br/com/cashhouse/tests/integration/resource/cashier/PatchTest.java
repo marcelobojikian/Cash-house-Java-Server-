@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -20,7 +21,6 @@ import br.com.cashhouse.test.util.integration.Oauth2;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @SpringBootTest(classes = App.class)
-@Sql({ "classpath:reset.sql", "classpath:authorizations.sql" })
 public class PatchTest extends Oauth2 {
 
 	@Test
@@ -36,6 +36,7 @@ public class PatchTest extends Oauth2 {
 	}
 
 	@Test
+	@Sql(value={ "classpath:schema.sql","classpath:data.sql","classpath:scene.sql"}, executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 	public void patch_name_OK() throws Exception {
 
 		loginWith(JEAN);
@@ -91,7 +92,7 @@ public class PatchTest extends Oauth2 {
 		body().add("name", "New Name");
 
 		patch("/cashiers/999")
-				.andExpect(status().isNotFound());
+				.andExpect(status().isForbidden());
         // @formatter:on
 
 	}

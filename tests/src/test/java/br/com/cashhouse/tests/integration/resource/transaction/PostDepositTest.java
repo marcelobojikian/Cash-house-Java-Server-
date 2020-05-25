@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -20,11 +21,11 @@ import br.com.cashhouse.test.util.integration.Oauth2;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @SpringBootTest(classes = App.class)
-@Sql({ "classpath:reset.sql", "classpath:authorizations.sql" })
+@Sql(value={ "classpath:schema.sql","classpath:data.sql","classpath:scene.sql"}, executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 public class PostDepositTest extends Oauth2 {
 
 	private final static String URL = "/transactions/deposit";
-	private final static String STATUS = "DEPOSIT";
+	private final static String ACTION = "DEPOSIT";
 
 	@Test
 	public void save_without_cashier_fail() throws Exception {
@@ -47,6 +48,22 @@ public class PostDepositTest extends Oauth2 {
 
 		// @formatter:off
 		body().add("cashier", 3l);
+
+		post(URL)
+				.andExpect(status().isBadRequest());
+        // @formatter:on
+
+	}
+
+	@Test
+	public void save_without_flatmate_fail() throws Exception {
+
+		loginWith(JEAN);
+
+		// @formatter:off
+		body()
+			.add("cashier", 3l)
+			.add("value", new BigDecimal("11.23"));
 
 		post(URL)
 				.andExpect(status().isBadRequest());
@@ -78,7 +95,7 @@ public class PostDepositTest extends Oauth2 {
 		// @formatter:off
 		body()
 			.add("cashier", 300l)
-			.add("assigned", 9l)
+			.add("flatmate", 9l)
 			.add("value", new BigDecimal("1234567890.23"));
 
 		post(URL)
@@ -95,11 +112,11 @@ public class PostDepositTest extends Oauth2 {
 		// @formatter:off
 		body()
 			.add("cashier", 3l)
-			.add("assigned", 999l)
+			.add("flatmate", 999l)
 			.add("value", new BigDecimal("1234567890.23"));
 
 		post(URL)
-				.andExpect(status().isNotFound());
+				.andExpect(status().isForbidden());
         // @formatter:on
 
 	}
@@ -112,7 +129,7 @@ public class PostDepositTest extends Oauth2 {
 		// @formatter:off
 		body()
 			.add("cashier", 3l)
-			.add("assigned", 9l)
+			.add("flatmate", 9l)
 			.add("value", "ABC");
 
 		post(URL)
@@ -129,16 +146,15 @@ public class PostDepositTest extends Oauth2 {
 		// @formatter:off
 		body()
 			.add("cashier", 3l)
+			.add("flatmate", 8l)
 			.add("value", new BigDecimal("1234567890.23"));
 		
 		post(URL)
 				.andExpect(status().isCreated())
-				.andExpect(jsonPath("$.id", is(1001)))
-				.andExpect(jsonPath("$.createBy.id", is(8)))
-				.andExpect(jsonPath("$.assigned.id", is(8)))
+				.andExpect(jsonPath("$.flatmate.id", is(8)))
 				.andExpect(jsonPath("$.cashier.id", is(3)))
-				.andExpect(jsonPath("$.status", is("CREATED")))
-				.andExpect(jsonPath("$.action", is(STATUS)))
+				.andExpect(jsonPath("$.status", is("SENDED")))
+				.andExpect(jsonPath("$.action", is(ACTION)))
 				.andExpect(jsonPath("$.value",is(1234567890.23)));
         // @formatter:on
 
@@ -152,17 +168,15 @@ public class PostDepositTest extends Oauth2 {
 		// @formatter:off
 		body()
 			.add("cashier", 3l)
-			.add("assigned", 9l)
+			.add("flatmate", 9l)
 			.add("value", new BigDecimal("1234567890.23"));
 		
 		post(URL)
 				.andExpect(status().isCreated())
-				.andExpect(jsonPath("$.id", is(1001)))
-				.andExpect(jsonPath("$.createBy.id", is(8)))
-				.andExpect(jsonPath("$.assigned.id", is(9)))
+				.andExpect(jsonPath("$.flatmate.id", is(9)))
 				.andExpect(jsonPath("$.cashier.id", is(3)))
-				.andExpect(jsonPath("$.status", is("CREATED")))
-				.andExpect(jsonPath("$.action", is(STATUS)))
+				.andExpect(jsonPath("$.status", is("SENDED")))
+				.andExpect(jsonPath("$.action", is(ACTION)))
 				.andExpect(jsonPath("$.value",is(1234567890.23)));
         // @formatter:on
 
@@ -176,16 +190,15 @@ public class PostDepositTest extends Oauth2 {
 		// @formatter:off
 		body()
 			.add("cashier", 3l)
+			.add("flatmate", 9l)
 			.add("value", new BigDecimal("1234567890.23"));
 		
 		post(URL)
 				.andExpect(status().isCreated())
-				.andExpect(jsonPath("$.id", is(1001)))
-				.andExpect(jsonPath("$.createBy.id", is(9)))
-				.andExpect(jsonPath("$.assigned.id", is(9)))
+				.andExpect(jsonPath("$.flatmate.id", is(9)))
 				.andExpect(jsonPath("$.cashier.id", is(3)))
-				.andExpect(jsonPath("$.status", is("CREATED")))
-				.andExpect(jsonPath("$.action", is(STATUS)))
+				.andExpect(jsonPath("$.status", is("SENDED")))
+				.andExpect(jsonPath("$.action", is(ACTION)))
 				.andExpect(jsonPath("$.value",is(1234567890.23)));
         // @formatter:on
 
@@ -199,7 +212,7 @@ public class PostDepositTest extends Oauth2 {
 		// @formatter:off
 		body()
 			.add("cashier", 3l)
-			.add("assigned", 10l)
+			.add("flatmate", 10l)
 			.add("value", new BigDecimal("1234567890.23"));
 
 		post(URL)

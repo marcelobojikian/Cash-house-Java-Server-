@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,28 +23,38 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.cashhouse.cashier.rest.dto.CreateCashier;
 import br.com.cashhouse.cashier.rest.dto.EntityCashier;
 import br.com.cashhouse.cashier.rest.dto.UpdateCashier;
-import br.com.cashhouse.cashier.rest.service.CashierService;
+import br.com.cashhouse.cashier.service.CashierService;
 import br.com.cashhouse.core.model.Cashier;
+import br.com.cashhouse.core.model.Dashboard;
+import br.com.cashhouse.util.service.RestSession;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/api/v1/cashiers")
 public class CashierController {
 
+	private static final String DASHBOARD_ID = "dashboard";
+	
+	@Autowired
+	private RestSession restSession;
+
 	@Autowired
 	private CashierService cashierService;
 
 	@GetMapping("")
 	@ApiOperation(value = "Return a list with all cashiers", response = Cashier[].class)
-	public ResponseEntity<List<Cashier>> findAll() {
+	public ResponseEntity<List<Cashier>> findAll(@RequestHeader(value = DASHBOARD_ID, required = false) String dashboardHeader) {
+		
+		Dashboard dashboard = restSession.getDashboard(dashboardHeader);
 
-		List<Cashier> cashiers = cashierService.findAll();
+		List<Cashier> cashiers = cashierService.findAll(dashboard);
 
 		if (cashiers.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 
 		return new ResponseEntity<>(cashiers, HttpStatus.OK);
+		
 	}
 
 	@GetMapping("/{id}")
@@ -55,7 +66,9 @@ public class CashierController {
 	@PostMapping("")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Return a cashier entity created", response = Cashier.class)
-	public Cashier create(@RequestBody @Valid CreateCashier cashier) {
+	public Cashier create(@RequestHeader(value = DASHBOARD_ID, required = false) String dashboardHeader, @RequestBody @Valid CreateCashier cashier) {
+		
+		Dashboard dashboard = restSession.getDashboard(dashboardHeader);
 
 		String name = cashier.getName();
 		BigDecimal started = cashier.getStarted();
@@ -65,7 +78,7 @@ public class CashierController {
 			started = balance;
 		}
 
-		return cashierService.create(name, started, balance);
+		return cashierService.create(dashboard, name, started, balance);
 
 	}
 
@@ -80,15 +93,23 @@ public class CashierController {
 	public Cashier patch(@PathVariable Long id, @RequestBody @Valid UpdateCashier cashier) {
 
 		String name = cashier.getName();
-		return cashierService.update(id, name);
+		
+		Cashier entity = cashierService.findById(id);
+		entity.setName(name);
+		
+		return cashierService.update(id, entity);
 
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Return status OK when deleted", response = Cashier.class)
-	public void detele(@PathVariable Long id) {
-		cashierService.delete(id);
+	public void detele(@RequestHeader(value = DASHBOARD_ID, required = false) String dashboardHeader, @PathVariable Long id) {
+		
+		Dashboard dashboard = restSession.getDashboard(dashboardHeader);
+
+		cashierService.delete(dashboard, id);
+
 	}
 
 }

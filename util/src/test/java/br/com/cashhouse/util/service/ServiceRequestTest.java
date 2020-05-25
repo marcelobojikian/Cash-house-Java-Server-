@@ -79,128 +79,128 @@ public class ServiceRequestTest {
 		assertTrue(serviceRequest.preHandle(request, null, null));
 	}
 
-	@Test
-	public void should_return_new_Dashboard_when_flatame_dont_have_dashboard() throws Exception {
-
-		when(request.getHeader(DASHBOARD_ID)).thenReturn(null);
-		serviceRequest.preHandle(request, null, null);
-
-		Flatmate flatmate = new Flatmate();
-
-		Dashboard expected = new Dashboard();
-
-		when(flatmateRepository.findByEmail(anyString())).thenReturn(Optional.of(flatmate));
-		when(dashboardRepository.findByOwner(flatmate)).thenReturn(null);
-		when(dashboardRepository.save(any(Dashboard.class))).thenReturn(expected);
-
-		Dashboard dashboard = serviceRequest.getDashboard();
-
-		assertThat(dashboard).isEqualTo(expected);
-
-	}
-
-	@Test
-	public void should_return_Dashboard_when_header_dashboard_null() throws Exception {
-
-		when(request.getHeader(DASHBOARD_ID)).thenReturn(null);
-		serviceRequest.preHandle(request, null, null);
-
-		Flatmate flatmate = createFlatmate(1l);
-		Dashboard dashboard = flatmate.getDashboard();
-
-		when(flatmateRepository.findByEmail(anyString())).thenReturn(Optional.of(flatmate));
-		when(dashboardRepository.findByOwner(flatmate)).thenReturn(dashboard);
-
-		Dashboard expected = serviceRequest.getDashboard();
-
-		assertThat(dashboard).isEqualTo(expected);
-
-	}
-
-	@Test
-	public void should_return_Dashboard_when_header_flatmate_owner() throws Exception {
-
-		when(request.getHeader(DASHBOARD_ID)).thenReturn("1");
-		serviceRequest.preHandle(request, null, null);
-
-		Flatmate flatmate = createFlatmate(1l);
-		Dashboard dashboard = flatmate.getDashboard();
-
-		when(flatmateRepository.findByEmail(anyString())).thenReturn(Optional.of(flatmate));
-		when(dashboardRepository.findById(1l)).thenReturn(Optional.of(dashboard));
-
-		Dashboard expected = serviceRequest.getDashboard();
-
-		assertThat(dashboard).isEqualTo(expected);
-
-	}
-
-	@Test
-	public void should_return_Dashboard_when_header_flatmate_guest() throws Exception {
-
-		when(request.getHeader(DASHBOARD_ID)).thenReturn("1");
-		serviceRequest.preHandle(request, null, null);
-
-		Flatmate flatmate = createFlatmate(1l);
-		Dashboard dashboard = flatmate.getDashboard();
-
-		Flatmate guest = createFlatmate(2l);
-		dashboard.getGuests().add(guest);
-
-		when(flatmateRepository.findByEmail(anyString())).thenReturn(Optional.of(guest));
-		when(dashboardRepository.findById(1l)).thenReturn(Optional.of(dashboard));
-
-		Dashboard expected = serviceRequest.getDashboard();
-
-		assertThat(dashboard).isEqualTo(expected);
-		assertThat(dashboard.getGuests()).contains(guest);
-
-	}
-
-	@Test(expected = EntityNotFoundException.class)
-	public void should_throw_EntityNotFoundException() throws Exception {
-
-		when(request.getHeader(DASHBOARD_ID)).thenReturn("1");
-		serviceRequest.preHandle(request, null, null);
-
-		Flatmate guest = createFlatmate(2l);
-
-		when(flatmateRepository.findByEmail(anyString())).thenReturn(Optional.of(guest));
-		when(dashboardRepository.findById(1l)).thenReturn(Optional.empty());
-
-		serviceRequest.getDashboard();
-
-	}
-
-	@Test(expected = AccessDeniedException.class)
-	public void should_throw_AccessDeniedException() throws Exception {
-
-		when(request.getHeader(DASHBOARD_ID)).thenReturn("1");
-		serviceRequest.preHandle(request, null, null);
-
-		Flatmate flatmate = createFlatmate(1l);
-		Dashboard dashboard = flatmate.getDashboard();
-
-		Flatmate guest = createFlatmate(2l);
-
-		when(flatmateRepository.findByEmail(anyString())).thenReturn(Optional.of(guest));
-		when(dashboardRepository.findById(1l)).thenReturn(Optional.of(dashboard));
-
-		serviceRequest.getDashboard();
-
-	}
-
-	private Flatmate createFlatmate(Long id) {
-
-		Flatmate flatmate = new Flatmate();
-		flatmate.setId(id);
-		flatmate.setEmail("email");
-
-		Dashboard dashboard = new Dashboard();
-		flatmate.setDashboard(dashboard);
-		dashboard.setOwner(flatmate);
-
-		return flatmate;
-	}
+//	@Test
+//	public void should_return_new_Dashboard_when_flatame_dont_have_dashboard() throws Exception {
+//
+//		when(request.getHeader(DASHBOARD_ID)).thenReturn(null);
+//		serviceRequest.preHandle(request, null, null);
+//
+//		Flatmate flatmate = new Flatmate();
+//
+//		Dashboard expected = new Dashboard();
+//
+//		when(flatmateRepository.findByEmail(anyString())).thenReturn(Optional.of(flatmate));
+//		when(dashboardRepository.findByOwner(flatmate)).thenReturn(null);
+//		when(dashboardRepository.save(any(Dashboard.class))).thenReturn(expected);
+//
+//		Dashboard dashboard = serviceRequest.getDashboard();
+//
+//		assertThat(dashboard).isEqualTo(expected);
+//
+//	}
+//
+//	@Test
+//	public void should_return_Dashboard_when_header_dashboard_null() throws Exception {
+//
+//		when(request.getHeader(DASHBOARD_ID)).thenReturn(null);
+//		serviceRequest.preHandle(request, null, null);
+//
+//		Flatmate flatmate = createFlatmate(1l);
+//		Dashboard dashboard = flatmate.getDashboard();
+//
+//		when(flatmateRepository.findByEmail(anyString())).thenReturn(Optional.of(flatmate));
+//		when(dashboardRepository.findByOwner(flatmate)).thenReturn(dashboard);
+//
+//		Dashboard expected = serviceRequest.getDashboard();
+//
+//		assertThat(dashboard).isEqualTo(expected);
+//
+//	}
+//
+//	@Test
+//	public void should_return_Dashboard_when_header_flatmate_owner() throws Exception {
+//
+//		when(request.getHeader(DASHBOARD_ID)).thenReturn("1");
+//		serviceRequest.preHandle(request, null, null);
+//
+//		Flatmate flatmate = createFlatmate(1l);
+//		Dashboard dashboard = flatmate.getDashboard();
+//
+//		when(flatmateRepository.findByEmail(anyString())).thenReturn(Optional.of(flatmate));
+//		when(dashboardRepository.findById(1l)).thenReturn(Optional.of(dashboard));
+//
+//		Dashboard expected = serviceRequest.getDashboard();
+//
+//		assertThat(dashboard).isEqualTo(expected);
+//
+//	}
+//
+//	@Test
+//	public void should_return_Dashboard_when_header_flatmate_guest() throws Exception {
+//
+//		when(request.getHeader(DASHBOARD_ID)).thenReturn("1");
+//		serviceRequest.preHandle(request, null, null);
+//
+//		Flatmate flatmate = createFlatmate(1l);
+//		Dashboard dashboard = flatmate.getDashboard();
+//
+//		Flatmate guest = createFlatmate(2l);
+//		dashboard.getGuests().add(guest);
+//
+//		when(flatmateRepository.findByEmail(anyString())).thenReturn(Optional.of(guest));
+//		when(dashboardRepository.findById(1l)).thenReturn(Optional.of(dashboard));
+//
+//		Dashboard expected = serviceRequest.getDashboard();
+//
+//		assertThat(dashboard).isEqualTo(expected);
+//		assertThat(dashboard.getGuests()).contains(guest);
+//
+//	}
+//
+//	@Test(expected = EntityNotFoundException.class)
+//	public void should_throw_EntityNotFoundException() throws Exception {
+//
+//		when(request.getHeader(DASHBOARD_ID)).thenReturn("1");
+//		serviceRequest.preHandle(request, null, null);
+//
+//		Flatmate guest = createFlatmate(2l);
+//
+//		when(flatmateRepository.findByEmail(anyString())).thenReturn(Optional.of(guest));
+//		when(dashboardRepository.findById(1l)).thenReturn(Optional.empty());
+//
+//		serviceRequest.getDashboard();
+//
+//	}
+//
+//	@Test(expected = AccessDeniedException.class)
+//	public void should_throw_AccessDeniedException() throws Exception {
+//
+//		when(request.getHeader(DASHBOARD_ID)).thenReturn("1");
+//		serviceRequest.preHandle(request, null, null);
+//
+//		Flatmate flatmate = createFlatmate(1l);
+//		Dashboard dashboard = flatmate.getDashboard();
+//
+//		Flatmate guest = createFlatmate(2l);
+//
+//		when(flatmateRepository.findByEmail(anyString())).thenReturn(Optional.of(guest));
+//		when(dashboardRepository.findById(1l)).thenReturn(Optional.of(dashboard));
+//
+//		serviceRequest.getDashboard();
+//
+//	}
+//
+//	private Flatmate createFlatmate(Long id) {
+//
+//		Flatmate flatmate = new Flatmate();
+//		flatmate.setId(id);
+//		flatmate.setEmail("email");
+//
+//		Dashboard dashboard = new Dashboard();
+//		flatmate.setDashboard(dashboard);
+//		dashboard.setOwner(flatmate);
+//
+//		return flatmate;
+//	}
 
 }

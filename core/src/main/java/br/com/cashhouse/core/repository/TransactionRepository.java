@@ -1,6 +1,6 @@
 package br.com.cashhouse.core.repository;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -11,6 +11,8 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.prepost.PostFilter;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -18,55 +20,35 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import br.com.cashhouse.core.model.Cashier;
 import br.com.cashhouse.core.model.Dashboard;
 import br.com.cashhouse.core.model.Flatmate;
-import br.com.cashhouse.core.model.Transaction;
 import br.com.cashhouse.core.model.QTransaction;
-import br.com.cashhouse.core.model.Transaction.Status;
+import br.com.cashhouse.core.model.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long>, QuerydslPredicateExecutor<Transaction>,
 		QuerydslBinderCustomizer<QTransaction> {
 
-	@Query("SELECT t FROM Transaction t WHERE t IN :#{#dashboard.transactions}")
-	public Collection<Transaction> findByDashboard(@Param("dashboard") Dashboard dashboard);
+    @PreAuthorize("hasPermission(#id, 'br.com.cashhouse.core.model.Transaction', 'READ')")
+	public Optional<Transaction> findById(@Param("id") long id);
+    
+	@Query("SELECT t FROM Dashboard d JOIN d.transactions t WHERE d = :dashboard")
+    @PostFilter("hasPermission(filterObject, 'READ')")
+	public List<Transaction> findByDashboard(@Param("dashboard") Dashboard dashboard);
 
-	@Query("SELECT t FROM Transaction t WHERE t IN :#{#dashboard.transactions} AND t.cashier = :cashier")
-	public Collection<Transaction> findByDashboardAndCashier(@Param("dashboard") Dashboard dashboard,
-			@Param("cashier") Cashier cashier);
+	@Query("SELECT t FROM Dashboard d JOIN d.transactions t WHERE d = :dashboard AND t.cashier = :cashier")
+	public List<Transaction> findByDashboardAndCashier(@Param("dashboard") Dashboard dashboard, @Param("cashier") Cashier cashier);
 
-	@Query("SELECT t FROM Transaction t WHERE t IN :#{#dashboard.transactions} AND ( t.createBy = :createBy OR t.assigned = :assigned )")
-	public Collection<Transaction> findByDashboardAndFlatmateRef(@Param("dashboard") Dashboard dashboard,
-			@Param("createBy") Flatmate createBy, @Param("assigned") Flatmate assigned);
+	@Query("SELECT t FROM Dashboard d JOIN d.transactions t WHERE d = :dashboard AND t.flatmate = :flatmate")
+	public List<Transaction> findByDashboardAndFlatmateRef(@Param("dashboard") Dashboard dashboard, @Param("flatmate") Flatmate flatmate);
 
-	@Query("SELECT t FROM Transaction t WHERE t IN :#{#dashboard.transactions}")
-	public Page<Transaction> findByDashboard(@Param("dashboard") Dashboard dashboard, Pageable pageable);
-
-	@Query("SELECT t FROM Transaction t WHERE t.id = :id AND t IN :#{#dashboard.transactions}")
-	public Optional<Transaction> findByDashboardAndId(@Param("dashboard") Dashboard dashboard, @Param("id") long id);
-
-	default Page<Transaction> findAll(Flatmate flatmateLogged, Dashboard dashboard, Predicate parameters,
+	default Page<Transaction> findAll(List<Flatmate> flatmates, Predicate parameters,
 			Pageable pageable) {
 		QTransaction transaction = QTransaction.transaction;
-		BooleanExpression inDashboard = transaction.in(dashboard.getTransactions());
-
-		BooleanExpression loggedUserCreated = transaction.createBy.eq(flatmateLogged);
-		BooleanExpression assignedToLoggedUser = transaction.assigned.eq(flatmateLogged)
-				.and(transaction.status.eq(Status.CREATED));
-		BooleanExpression allSendedOrFinishedOrCanceled = transaction.createBy.ne(flatmateLogged)
-				.and(transaction.status.notIn(Status.CREATED, Status.DELETED));
+		BooleanExpression inDashboard = transaction.flatmate.in(flatmates);
 
 		// @formatter:off
 		return findAll(
 					inDashboard
 					.and(
 						parameters
-					)
-					.and(
-						loggedUserCreated
-						.or(
-							allSendedOrFinishedOrCanceled
-						)
-						.or(
-							assignedToLoggedUser
-						)
 					)
 				, pageable);
 		// @formatter:on

@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,30 +34,38 @@ public class Dashboard implements Serializable {
 	private Long id;
 
 	@OneToOne(cascade = CascadeType.MERGE)
-	private Flatmate owner;
+	private Profile owner;
 
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "DASHBOARD_GUEST", joinColumns = @JoinColumn(name = "ID_DASHBOARD"), inverseJoinColumns = @JoinColumn(name = "ID_FLATMATE"))
-	private List<Flatmate> guests = new ArrayList<>();
+	@JoinTable(name = "DASHBOARD_GUEST", joinColumns = @JoinColumn(name = "ID_DASHBOARD"), inverseJoinColumns = @JoinColumn(name = "ID_PROFILE"))
+	private List<Profile> guests = new ArrayList<>();
 
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name = "DASHBOARD_FLATMATE", joinColumns = @JoinColumn(name = "ID_DASHBOARD"), inverseJoinColumns = @JoinColumn(name = "ID_FLATMATE"))
+	private List<Flatmate> flatmates = new ArrayList<>();
+
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "DASHBOARD_TRANSACTION", joinColumns = @JoinColumn(name = "ID_DASHBOARD"), inverseJoinColumns = @JoinColumn(name = "ID_TRANSACTION"))
 	private List<Transaction> transactions = new ArrayList<>();
 
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "DASHBOARD_CASHIER", joinColumns = @JoinColumn(name = "ID_DASHBOARD"), inverseJoinColumns = @JoinColumn(name = "ID_CASHIER"))
 	private List<Cashier> cashiers = new ArrayList<>();
 
-	public boolean isOwner(Flatmate flatmate) {
-		return this.owner.equals(flatmate);
+	public boolean isOwner(Profile profile) {
+		return this.owner.equals(profile);
 	}
 
-	public boolean isOwner(Long idFlatmate) {
-		return this.owner.getId().equals(idFlatmate);
+	public boolean isOwner(String username) {
+		return this.owner.getUsername().equals(username);
 	}
 
-	public boolean isGuest(Flatmate flatmate) {
-		return this.guests.contains(flatmate);
+	public boolean isGuest(Profile profile) {
+		return this.guests.contains(profile);
 	}
 
 }

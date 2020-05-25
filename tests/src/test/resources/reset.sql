@@ -1,10 +1,11 @@
-DROP TABLE IF EXISTS FLATMATE;
-DROP TABLE IF EXISTS DASHBOARD;
-DROP TABLE IF EXISTS CASHIER;
-DROP TABLE IF EXISTS TRANSACTION;
+
 DROP TABLE IF EXISTS DASHBOARD_CASHIER;
 DROP TABLE IF EXISTS DASHBOARD_GUEST;
 DROP TABLE IF EXISTS DASHBOARD_TRANSACTION;
+DROP TABLE IF EXISTS DASHBOARD;
+DROP TABLE IF EXISTS TRANSACTION;
+DROP TABLE IF EXISTS CASHIER;
+DROP TABLE IF EXISTS FLATMATE;
 DROP TABLE IF EXISTS LANGUAGE;
 
 CREATE TABLE IF NOT EXISTS FLATMATE (
@@ -138,6 +139,7 @@ INSERT INTO DASHBOARD_TRANSACTION (ID_DASHBOARD, ID_TRANSACTION) VALUES (2, 10);
 INSERT INTO DASHBOARD_TRANSACTION (ID_DASHBOARD, ID_TRANSACTION) VALUES (1, 11);
 INSERT INTO DASHBOARD_TRANSACTION (ID_DASHBOARD, ID_TRANSACTION) VALUES (1, 22);
 
+
 INSERT INTO LANGUAGE (LOCALE, MESSAGE_KEY, MESSAGE_CONTENT) VALUES
 ('en', 'cashier.not.found','Cashier {0} not found'),
 ('en', 'flatmate.not.found', 'Flatmate {0} not found'),
@@ -164,6 +166,5 @@ INSERT INTO LANGUAGE (LOCALE, MESSAGE_KEY, MESSAGE_CONTENT) VALUES
 ('es', 'flatmate.access.denied', 'Flatmate {0} does not have permissions for the resource'),
 ('es', 'flatmate.access.field.denied', 'Flatmate {0} does not have permissions for field {1}'),
 ('es', 'flatmate.assigned.not.found', 'Flatmate assigned {0} not found'),
-('es', 'flatmate.createBy.not.found', 'Flatmate createBy {0} not found')
-;
+('es', 'flatmate.createBy.not.found', 'Flatmate createBy {0} not found');
 

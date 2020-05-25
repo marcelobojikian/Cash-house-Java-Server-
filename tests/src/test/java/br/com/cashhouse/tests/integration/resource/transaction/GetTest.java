@@ -20,7 +20,7 @@ import br.com.cashhouse.test.util.integration.Oauth2;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @SpringBootTest(classes = App.class)
-@Sql({ "classpath:reset.sql", "classpath:authorizations.sql" })
+@Sql({"classpath:schema.sql","classpath:data.sql","classpath:scene.sql"})
 public class GetTest extends Oauth2 {
 
 	@Test
@@ -31,8 +31,8 @@ public class GetTest extends Oauth2 {
 		// @formatter:off
 		get("/transactions")
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.content", hasSize(greaterThanOrEqualTo(5))))
-	        .andExpect(jsonPath("$.content[*].id", hasItems(1,2,3,5,6)));
+			.andExpect(jsonPath("$.content", hasSize(greaterThanOrEqualTo(4))))
+	        .andExpect(jsonPath("$.content[*].id", hasItems(1,3,5,6)));
         // @formatter:on
 
 	}
@@ -46,7 +46,7 @@ public class GetTest extends Oauth2 {
 		get("/transactions?action=WITHDRAW")
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.content", hasSize(2)))
-	        .andExpect(jsonPath("$.content[*].id", hasItems(2,3)))
+	        .andExpect(jsonPath("$.content[*].id", hasItems(3,6)))
         	.andExpect(jsonPath("$.content[*].action", contains("WITHDRAW","WITHDRAW")));
         // @formatter:on
 
@@ -58,11 +58,11 @@ public class GetTest extends Oauth2 {
 		loginWith(MARCELO);
 
 		// @formatter:off
-		get("/transactions?status=FINISHED")
+		get("/transactions?status=SENDED")
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.content", hasSize(1)))
-			.andExpect(jsonPath("$.content[0].id", is(2)))
-			.andExpect(jsonPath("$.content[0].status", is("FINISHED")));
+			.andExpect(jsonPath("$.content", hasSize(2)))
+			.andExpect(jsonPath("$.content[*].id", hasItems(3,5)))
+			.andExpect(jsonPath("$.content[*].status", contains("SENDED","SENDED")));
         // @formatter:on
 
 	}
@@ -75,9 +75,9 @@ public class GetTest extends Oauth2 {
 		// @formatter:off
 		get("/transactions?cashier=1")
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.content", hasSize(3)))
-	        .andExpect(jsonPath("$.content[*].id", hasItems(1,2,6)))
-	        .andExpect(jsonPath("$.content[*].cashier.id", contains(1,1,1)));
+			.andExpect(jsonPath("$.content", hasSize(2)))
+	        .andExpect(jsonPath("$.content[*].id", hasItems(3,5)))
+	        .andExpect(jsonPath("$.content[*].cashier.id", contains(1,1)));
         // @formatter:on
 
 	}
@@ -91,7 +91,7 @@ public class GetTest extends Oauth2 {
 		get("/transactions?action=WITHDRAW&cashier=1")
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.content", hasSize(1)))
-			.andExpect(jsonPath("$.content[0].id", is(2)))
+			.andExpect(jsonPath("$.content[0].id", is(3)))
 			.andExpect(jsonPath("$.content[0].action", is("WITHDRAW")))
 			.andExpect(jsonPath("$.content[0].cashier.id", is(1)));
         // @formatter:on

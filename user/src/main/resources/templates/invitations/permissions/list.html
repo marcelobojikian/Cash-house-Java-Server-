@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default">
+	<head>
+		<title>Header</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+			
+			<form action="#" th:action="@{/invitations/{id}/permissions/update(id=${id})}" th:object="${updatePermission}" method="post">
+		
+            <h2>Permissions</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Read</th>
+                        <th>Write</th>
+                        <th>Delete</th>
+                        <th>Create</th>
+                    </tr>
+                </thead>
+                <tbody>
+	                <tr>
+	                	<td>
+	                		<span th:text="${updatePermission.getUsername()}"></span>
+	                		<input hidden th:field="*{username}" th:value="${updatePermission.getUsername()}"/>
+	                	</td>
+	                    <td th:each="permission: ${updatePermission.permissions}">
+	                    	<input th:field="*{permissions['__${permission.key}__']}" th:checked="${permission.value}" type="checkbox">
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+		
+	    	<div class="container">
+	    		<div class="row justify-content-end">
+	    			<button type="submit" class="btn btn-primary">Update</button>
+	    		</div>
+			</div>
+    	
+    	</form>
+		    
+		</div>
+	</body>
+	
+</html>

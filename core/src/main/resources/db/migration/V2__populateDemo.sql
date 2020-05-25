@@ -1,38 +1,12 @@
 
-INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Marcelo', 'marcelo@mail.com', false, false);
-INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Biro', 'biro@mail.com', false, true);
-INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Eduardo', 'eduardo@mail.com', false, true);
-INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Willian', 'will@mail.com', false, true);
-INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Aime', 'aime@mail.com', false, true);
-INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Carol', 'carol@mail.com', false, true);
-INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Raissa', 'rai@mail.com', false, true);
-INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Jean (test)', 'jean@mail.com', false, false);
-INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Gretchen (test)', 'gretchen@mail.com', false, true);
-INSERT INTO FLATMATE (NICKNAME, EMAIL, FIRST_STEP, GUEST_STEP) VALUES ('Fernando (test)', 'fernando@mail.com', true, true);
-
-INSERT INTO DASHBOARD (OWNER_ID) VALUES (1);
-INSERT INTO DASHBOARD (OWNER_ID) VALUES (8);
-
-INSERT INTO CASHIER (OWNER_ID, BALANCE, NAME, STARTED) VALUES (1, 32.54, 'Energy & bin', 0);
-INSERT INTO CASHIER (OWNER_ID, BALANCE, NAME, STARTED) VALUES (1, 120, 'Geral', 23);
-INSERT INTO CASHIER (OWNER_ID, BALANCE, NAME, STARTED) VALUES (8, 3.11, 'Rent & Clean', 12.45);
-
-INSERT INTO DASHBOARD_CASHIER (ID_DASHBOARD, ID_CASHIER) VALUES (1, 1);
-INSERT INTO DASHBOARD_CASHIER (ID_DASHBOARD, ID_CASHIER) VALUES (1, 2);
-INSERT INTO DASHBOARD_CASHIER (ID_DASHBOARD, ID_CASHIER) VALUES (2, 3);
-
-INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (1, 2);
-INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (1, 3);
-INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (1, 4);
-INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (1, 5);
-INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (1, 6);
-INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (1, 7);
-INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (2, 9);
-INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (2, 10);
-
-INSERT INTO DASHBOARD_GUEST (ID_DASHBOARD, ID_FLATMATE) VALUES (2, 1);
-
 INSERT INTO LANGUAGE (LOCALE, MESSAGE_KEY, MESSAGE_CONTENT) VALUES
+('en', 'profile.not.found','Profile {0} not found'),
+('en', 'dashboard.not.found','Dashboard {0} not found'),
+('en', 'NotBlank.flatmate.nickname','Nickname cannot be blank'),
+('en', 'NotBlank.cashier.name','Name cannot be blank'),
+('en', 'typeMismatch.cashier.started','Started must be a floating point value'),
+('en', 'typeMismatch.cashier.balance','Balance must be a floating point value'),
+/*
 ('en', 'cashier.not.found','Cashier {0} not found'),
 ('en', 'flatmate.not.found', 'Flatmate {0} not found'),
 ('en', 'transaction.not.found', 'Transaction {0} not found'),
@@ -41,7 +15,14 @@ INSERT INTO LANGUAGE (LOCALE, MESSAGE_KEY, MESSAGE_CONTENT) VALUES
 ('en', 'flatmate.access.field.denied', 'Flatmate {0} does not have permissions for field {1}'),
 ('en', 'flatmate.assigned.not.found', 'Flatmate assigned {0} not found'),
 ('en', 'flatmate.createBy.not.found', 'Flatmate createBy {0} not found'),
-
+*/
+('pt', 'profile.not.found','Perfil {0} não encontrado'),
+('pt', 'dashboard.not.found','Dashboard {0} não encontrado'),
+('pt', 'NotBlank.flatmate.nickname','Apelido não pode estar em branco'),
+('pt', 'NotBlank.cashier.name','Nome não pode estar em branco'),
+('pt', 'typeMismatch.cashier.started','Valor inicial deve ser um valor de ponto flutuante'),
+('pt', 'typeMismatch.cashier.balance','Saldo deve ser um valor de ponto flutuante'),
+/*
 ('pt', 'cashier.not.found','Caixinha {0} não encontrada'),
 ('pt', 'flatmate.not.found', 'Flatmate {0} não encontrado'),
 ('pt', 'transaction.not.found', 'Transação {0} não encontrada'),
@@ -50,7 +31,14 @@ INSERT INTO LANGUAGE (LOCALE, MESSAGE_KEY, MESSAGE_CONTENT) VALUES
 ('pt', 'flatmate.access.field.denied', 'Flatmate {0} não tem permissão para o recurso {1}'),
 ('pt', 'flatmate.assigned.not.found', 'Flatmate assinado {0} não encontrado para a Transação'),
 ('pt', 'flatmate.createBy.not.found', 'Flatmate criador {0} não encontrado para a Transação'),
-
+*/
+('es', 'profile.not.found','Profile {0} not found'),
+('es', 'dashboard.not.found','Dashboard {0} not found'),
+('es', 'NotBlank.flatmate.nickname','Nickname cannot be blank'),
+('es', 'NotBlank.cashier.name','Name cannot be blank'),
+('es', 'typeMismatch.cashier.started','Started must be a floating point value'),
+('es', 'typeMismatch.cashier.balance','Balance must be a floating point value');
+/*
 ('es', 'cashier.not.found','Cashier {0} not found'),
 ('es', 'flatmate.not.found', 'Flatmate {0} not found'),
 ('es', 'transaction.not.found', 'Transaction {0} not found'),
@@ -58,5 +46,17 @@ INSERT INTO LANGUAGE (LOCALE, MESSAGE_KEY, MESSAGE_CONTENT) VALUES
 ('es', 'flatmate.access.denied', 'Flatmate {0} does not have permissions for the resource'),
 ('es', 'flatmate.access.field.denied', 'Flatmate {0} does not have permissions for field {1}'),
 ('es', 'flatmate.assigned.not.found', 'Flatmate assigned {0} not found'),
-('es', 'flatmate.createBy.not.found', 'Flatmate createBy {0} not found')
-;
+('es', 'flatmate.createBy.not.found', 'Flatmate createBy {0} not found');
+*/
+
+
+INSERT INTO ACL_SID (PRINCIPAL, SID) VALUES
+(false, 'ROLE_ADMIN'),
+(false, 'ROLE_USER');
+
+INSERT INTO ACL_CLASS (CLASS) VALUES
+('br.com.cashhouse.core.model.Profile'),
+('br.com.cashhouse.core.model.Dashboard'),
+('br.com.cashhouse.core.model.Flatmate'),
+('br.com.cashhouse.core.model.Cashier'),
+('br.com.cashhouse.core.model.Transaction');

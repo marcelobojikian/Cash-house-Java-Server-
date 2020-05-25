@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	
+	<div th:fragment="footer">
+		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+		<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+		<span sec:authorize="hasRole('ADMIN')">
+			| Dashboard: <span th:text="${session.dashboard.owner.username}" th:unless="${session.dashboard == null}"></span>
+		</span>
+	</div>
+	
+</html>

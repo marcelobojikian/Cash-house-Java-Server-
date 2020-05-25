@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default">
+	<head>
+		<title>Header</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+	
+			<form action="#" th:action="@{/flatmates/update/{id}(id=${id})}" th:object="${flatmate}" method="post">
+	
+				<div class="form-group">
+					<label for="nickname">Nickname</label>
+					<input type="text" class="form-control" th:field="*{nickname}" id="nickname" placeholder="Nickname">
+					<p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="alert alert-danger"></p>
+				</div>
+				
+		    	<div class="container">
+		    		<div class="row justify-content-end">
+						<button type="submit" class="btn btn-primary mb-2">Update</button>
+		    		</div>
+				</div>
+				
+			</form>
+		
+		</div>
+	</body>
+	
+</html>

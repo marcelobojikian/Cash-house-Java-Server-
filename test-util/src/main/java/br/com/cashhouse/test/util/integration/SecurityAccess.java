@@ -6,10 +6,18 @@ public class SecurityAccess {
 
 	public enum User {
 
-		MARCELO(1, "marcelo@mail.com", "test", 1), BIRO(2, "biro@mail.com", "test"),
-		EDUARDO(3, "eduardo@mail.com", "test"), WILL(4, "will@mail.com", "test"), GABI(5, "gabi@mail.com", "test"),
-		CAROL(6, "carol@mail.com", "test"), RAISSA(7, "rai@mail.com", "test"), JEAN(8, "jean@mail.com", "test", 2),
-		GRETCHEN(9, "gretchen@mail.com", "test"), FERNANDO(10, "fernando@mail.com", "test");
+		// @formatter:off
+		MARCELO(1, "marcelo@mail.com", "test", 1), 
+		BIRO(2, "biro@mail.com", "test"),
+		EDUARDO(3, "eduardo@mail.com", "test"), 
+		WILL(4, "will@mail.com", "test"), 
+		GABI(5, "gabi@mail.com", "test"),
+		CAROL(6, "carol@mail.com", "test"), 
+		RAISSA(7, "rai@mail.com", "test"), 
+		JEAN(8, "jean@mail.com", "test", 8),
+		GRETCHEN(9, "gretchen@mail.com", "test"), 
+		FERNANDO(10, "fernando@mail.com", "test");
+		// @formatter:on
 
 		private Integer id;
 		private String username;

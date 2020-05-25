@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default">
+	<head>
+		<title>Header</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+
+			<div class="row">
+				<div class="col-2 font-weight-bold">
+					<span>Username:</span>
+				</div>
+				<div class="col">
+					<span th:text="${username}"></span>
+				</div>
+			</div>
+	
+			<div sec:authorize="hasRole('ADMIN')" class="row">
+				<div class="col-2 font-weight-bold">
+					<span>Roles:</span>
+				</div>
+				<div class="col">
+					<span sec:authentication="principal.authorities"></span>
+				</div>
+			</div>
+		    
+		</div>
+	</body>
+	
+</html>

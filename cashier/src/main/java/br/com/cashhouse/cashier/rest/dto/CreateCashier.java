@@ -3,7 +3,7 @@ package br.com.cashhouse.cashier.rest.dto;
 import java.math.BigDecimal;
 
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.NumberFormat;
@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 public class CreateCashier {
 
-	@NotEmpty
+	@NotBlank
 	String name;
 
 	@NumberFormat(style = Style.CURRENCY)

@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -18,7 +19,7 @@ import br.com.cashhouse.test.util.integration.Oauth2;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @SpringBootTest(classes = App.class)
-@Sql({ "classpath:reset.sql", "classpath:authorizations.sql" })
+@Sql(value={ "classpath:schema.sql","classpath:data.sql","classpath:scene.sql"}, executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 public class PostTest extends Oauth2 {
 
 	@Test
@@ -28,68 +29,11 @@ public class PostTest extends Oauth2 {
 
 		// @formatter:off
 		body()
-			.add("email", "newFlatmate@mail.com")
-			.add("nickname", "New Flatmate")
-			.add("password", "test");
+			.add("nickname", "New Flatmate");
 
 		post("/flatmates")
 				.andExpect(status().isCreated())
-				.andExpect(jsonPath("$.id", is(1001)))
-				.andExpect(jsonPath("$.email", is("newFlatmate@mail.com")))
-				.andExpect(jsonPath("$.nickname", is("New Flatmate")))
-				.andExpect(jsonPath("$.password").doesNotExist());
-        // @formatter:on
-
-	}
-
-	@Test
-	public void save_without_email_Fail() throws Exception {
-
-		loginWith(JEAN);
-
-		// @formatter:off
-		body()
-			.add("nickname", "New Gretchen Flatmate")
-			.add("password", "test");
-
-		post("/flatmates")
-				.andExpect(status().isBadRequest());
-        // @formatter:on
-
-	}
-
-	@Test
-	public void save_without_nickname_OK() throws Exception {
-
-		loginWith(JEAN);
-
-		// @formatter:off
-		body()
-			.add("email", "newFlatmate@mail.com")
-			.add("password", "test");
-
-		post("/flatmates")
-				.andExpect(status().isCreated())
-				.andExpect(jsonPath("$.id", is(1001)))
-				.andExpect(jsonPath("$.email", is("newFlatmate@mail.com")))
-				.andExpect(jsonPath("$.nickname", is("newFlatmate@mail.com")))
-				.andExpect(jsonPath("$.password").doesNotExist());
-        // @formatter:on
-
-	}
-
-	@Test
-	public void save_without_password_Fail() throws Exception {
-
-		loginWith(JEAN);
-
-		// @formatter:off
-		body()
-			.add("email", "newFlatmate@mail.com")
-			.add("nickname", "New Gretchen Flatmate");
-
-		post("/flatmates")
-				.andExpect(status().isBadRequest());
+				.andExpect(jsonPath("$.nickname", is("New Flatmate")));
         // @formatter:on
 
 	}
@@ -97,13 +41,11 @@ public class PostTest extends Oauth2 {
 	@Test
 	public void guest_save_Forbidden() throws Exception {
 
-		loginWith(GRETCHEN).dashboard(JEAN);
+		loginWith(GRETCHEN).dashboard(MARCELO);
 
 		// @formatter:off
 		body()
-			.add("email", "gretchen@mail.com")
-			.add("nickname", "New Gretchen Flatmate")
-			.add("password", "test");
+			.add("nickname", "New Gretchen Flatmate");
 
 		post("/flatmates")
 				.andExpect(status().isForbidden());
