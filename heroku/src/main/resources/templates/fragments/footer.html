@@ -8,6 +8,8 @@
 		<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 		<script th:src="@{/webjars/jquery.inputmask/4.0.8/min/jquery.inputmask.bundle.min.js}"></script>
+		<script th:src="@{/webjars/momentjs/2.24.0/min/moment.min.js}"></script>
+		<script th:src="@{/webjars/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js}"></script>
 		<span sec:authorize="hasRole('ADMIN')">
 			| Dashboard: <span th:text="${session.dashboard.owner.username}" th:unless="${session.dashboard == null}"></span>
 		</span>

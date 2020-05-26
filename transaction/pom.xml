@@ -91,6 +91,18 @@
 		    <artifactId>jquery.inputmask</artifactId>
 		    <version>${jquery.inputmask.version}</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>tempusdominus-bootstrap-4</artifactId>
+		    <version>5.1.2</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>momentjs</artifactId>
+		    <version>2.24.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.h2database</groupId>
