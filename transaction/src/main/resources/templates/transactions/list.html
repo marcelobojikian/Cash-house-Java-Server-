@@ -6,7 +6,7 @@
 	<head>
 		<title>Header</title>
 	</head>
-	<body>
+	<body><input data-provide="datepicker">
 		<div layout:fragment="content">
 		
 			<div th:if="${param.message}" class="alert alert-danger alert-dismissible fade show">
@@ -23,51 +23,110 @@
 							th:value="@{/transactions(dashboard=${invite.id})}" th:text="${invite.owner.username}"></option>
 				</select>
 			</div>
+			
+			<div class="collapse" id="search">
+				<div class="card card-body">
 
-			<div th:switch="${#lists.size(entities)}">
-			    <h2 th:case="'0'">No Transactions yet!</h2>
-		        <div th:case="*">
-		            <h2>Transactions</h2>
-		            <table class="table table-bordered">
-		                <thead>
-		                    <tr>
-		                    	<th>#</th>
-		                        <th>Cashier</th>
-		                        <th>Flatmate</th>
-		                        <th>value</th>
-		                        <th>Edit</th>
-		                        <th>Delete</th>
-		                        <th sec:authorize="hasRole('ADMIN')">Permissions</th>
-		                    </tr>
-		                </thead>
-		                <tbody>
-			                <tr th:each="entity : ${entities}">
-			                    <td th:text="${entity.id}"></td>
-			                    <td th:text="${entity.cashier.name}"></td>
-			                    <td th:text="${entity.flatmate.nickname}"></td>
-			                    <td th:text="${entity.value}"></td>
-			                    <td>
-				                    <form sec:authorize-acl="${entity} :: 'WRITE'" action="#" 
-				                    	  th:action="@{/transactions/{id}/finish(id=${entity.id})}" method="post">
-										<a href="#" onclick="this.parentNode.submit();">Confirm</a>
-									</form>
-			                    </td>
-			                    <td><a sec:authorize-acl="${entity} :: 'DELETE'" th:href="@{/transactions/delete/{id}(id=${entity.id})}">Delete</a></td>
-			                    <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/transactions/{id}/permissions(id=${entity.id})}">view</a></td>
-			                </tr>
-			            </tbody>
-			        </table>
-		    	</div>
-		    	<div class="container text-right">
-		    		<div class="row justify-content-end">
-		    			<a type="button" class="btn btn-primary mr-1" sec:authorize-acl="${dashboard} :: 'CREATE'" th:href="@{/transactions/new/deposit}">Add Deposit</a>
-		    			<a type="button" class="btn btn-primary" sec:authorize-acl="${dashboard} :: 'CREATE'" th:href="@{/transactions/new/withdraw}">Add Withdraw</a>
-		    		</div>
+					<form th:action="@{/transactions}" method="GET">
+					
+						<input type="hidden" name="size" th:value="${param.size}" />
+						<input type="hidden" name="page" th:value="${param.page}" />
+					
+						<div class="form-row row-cols-1 row-cols-md-2">
+							<div class="col form-group">
+								<label for="cashier">Cashier</label>
+								<select class="form-control" id="cashier" name="cashier">
+									<option value="">All</option>
+								    <option th:each="cashier : ${cashiers}" th:value="${cashier.id}" th:text="${cashier.name}" th:selected="${#strings.equals(param.cashier, cashier.id)}"></option>
+								</select>
+							</div>
+			
+							<div class="col form-group">
+								<label for="flatmate">Flatmate</label>
+								<select class="form-control" id="flatmate" name="flatmate">
+									<option value="">All</option>
+								    <option th:each="flatmate : ${flatmates}" th:value="${flatmate.id}" th:text="${flatmate.nickname}" th:selected="${#strings.equals(param.flatmate, flatmate.id)}"></option>
+								</select>
+							</div>
+			
+							<div class="col form-group">
+								<label for="action">Type</label>
+								<select class="form-control" id="action" name="action">
+									<option value="">All</option>
+								    <option th:each="action : ${T(br.com.cashhouse.core.model.Transaction.Action).values()}" th:value="${action}" th:text="${action}" th:selected="${#strings.equals(param.action, action)}"></option>
+								</select>
+							</div>
+	
+						</div>
+						<button type="submit" class="btn btn-secondary btn-block" onClick='submitSearch(event)'>Apply</button>
+							
+					</form>
+	
 				</div>
-				
 			</div>
+			<p>
+	    		<div class="float-right">
+	    			<a type="button" class="btn btn-primary mr-1" sec:authorize-acl="${dashboard} :: 'CREATE'" th:href="@{/transactions/new/deposit}">Add Deposit</a>
+	    			<a type="button" class="btn btn-primary" sec:authorize-acl="${dashboard} :: 'CREATE'" th:href="@{/transactions/new/withdraw}">Add Withdraw</a>
+	    		</div>
+				<button class="btn btn-primary text-left" type="button" data-toggle="collapse"
+					data-target="#search" aria-expanded="false"
+					aria-controls="search">Filter</button>
+			</p>
+			
+			<div th:switch="${#lists.size(entities)}" class="mt-3">
+				<h2 th:case="'0'">No Transactions yet!</h2>
+				<div th:case="*">
+		            <h2 class="mb-3">Transactions</h2>
+					
+					<div th:each="group : ${entities}">
+						<h3 th:text="${group.createdDate}"></h3>
+						<div class="row row-cols-1 row-cols-md-2">
+							<div th:each="entity : ${group.data}" class="col mb-4">
+							
+								<div class="card">
+									<div class="card-body">
+										<span sec:authorize="hasRole('ADMIN')" class="float-left pr-2" th:text="'#'+${entity.id}"></span>
+										<span class="float-right" th:text="${entity.value}"></span>
+										<h5 class="card-title" th:text="${entity.action}"></h5>
+										<h6 class="card-subtitle mb-2 text-muted" th:text="${entity.cashier.name}"></h6>
+										<p class="card-text">Flatmate: <strong th:text="${entity.flatmate.nickname}"></strong></p>
+									    <div sec:authorize="hasRole('ADMIN')" class="float-left">
+									    	<a th:href="@{/transactions/{id}/permissions(id=${entity.id})}">Permissions</a>
+									    </div>
+									    <div sec:authorize-acl="${entity} :: 'DELETE'" class="form-inline float-right">
+						                    <form sec:authorize-acl="${entity} :: 'WRITE'" method="post"
+						                    	  th:action="@{/transactions/{id}/finish(id=${entity.id})}">
+												<a href="#" onclick="this.parentNode.submit();">Confirm</a>
+											</form>
+						                    <form class="pl-3" method="post"
+						                    	  th:action="@{/transactions/delete/{id}(id=${entity.id})}">
+												<a href="#"  onclick="this.parentNode.submit();">Delete</a>
+											</form>
+									    </div>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
 
+					<nav th:if="${entities.totalPages > 0}" aria-label="Page transaction">
+						<ul class="pagination justify-content-end">
+							<li th:each="pageNumber : ${#numbers.sequence(1, entities.totalPages)}" 
+								class="page-item" th:classappend="${#strings.equals(entities.number, pageNumber-1)} ? active">
+								<a th:href="@{/transactions(size=${entities.size}, page=${pageNumber-1}, action=${param.action}, cashier=${param.cashier}, flatmate=${param.flatmate})}"
+								class="page-link"
+								th:text="${pageNumber}"></a>
+							</li>
+						</ul>
+					</nav>
+					
+				</div>
+			</div>
+	
 		</div>
+		
 	</body>
 	
 </html>
